@@ -21,4 +21,8 @@ import { User } from '@app/common/database/models';
     }),
   ],
 })
-export class DatabaseModule {}
+export class DatabaseModule {
+  static forFeatue(entities: any[]) {
+    return SequelizeModule.forFeature(entities);
+  }
+}
