@@ -17,7 +17,7 @@ export class AbstractRepository<TModel extends Model> {
   async findByPk(id: string) {
     const entity = await this.model.findByPk(id);
 
-    if(!entity) {
+    if (!entity) {
       throw new NotFoundException(`Entity not found by id: ${id}`);
     }
 
@@ -27,8 +27,10 @@ export class AbstractRepository<TModel extends Model> {
   async findAll() {
     const entities = await this.model.findAll();
 
-    if(!entities) {
-      throw new NotFoundException(`Entities of type: ${typeof this.model} not found`);
+    if (!entities) {
+      throw new NotFoundException(
+        `Entities of type: ${typeof this.model} not found`,
+      );
     }
 
     return entities;

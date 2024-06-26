@@ -7,7 +7,6 @@ import { UserRepository } from './user.repository';
 @Module({
   providers: [UsersService, UserRepository],
   controllers: [UsersController],
-  imports: [DatabaseModule,
-    DatabaseModule.forFeatue([User])],
+  imports: [DatabaseModule, DatabaseModule.forFeatue([User])],
 })
 export class UsersModule {}
