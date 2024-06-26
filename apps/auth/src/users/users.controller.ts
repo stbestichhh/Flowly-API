@@ -22,7 +22,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Get user by his uuid' })
   @ApiResponse({ status: 200, type: User })
   @Get(':id')
-  getById(@Param() id: string) {
+  getById(@Param('id') id: string) {
     return this.userService.getById(id);
   }
 
@@ -44,7 +44,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Update user by his uuid' })
   @ApiResponse({ status: 200, type: User })
   @Patch(':id')
-  update(@Param() id: string, @Body() dto: UpdateUserDto) {
+  update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
     return this.userService.update(id, dto);
   }
 
@@ -52,7 +52,7 @@ export class UsersController {
   @ApiResponse({ status: 204 })
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
-  delete(@Param() id: string) {
+  delete(@Param('id') id: string) {
     return this.userService.delete(id);
   }
 }
