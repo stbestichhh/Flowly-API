@@ -24,6 +24,11 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(configService.get('PORT'));
+  const PORT = configService.get('HTTP_PORT');
+  const HOST = configService.get('HTTP_HOST');
+
+  await app.listen(PORT, HOST, () => {
+    console.log(`Service is runnig on http://${HOST}:${PORT}`);
+  });
 }
 bootstrap();

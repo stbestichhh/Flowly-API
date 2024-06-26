@@ -8,7 +8,6 @@ import * as process from 'process';
 @Module({
   imports: [UsersModule, ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
-      isGlobal: true,
   })],
   controllers: [AuthController],
   providers: [AuthService],

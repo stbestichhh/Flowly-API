@@ -10,7 +10,7 @@ interface UserCreationAttributes {
 @Table({ tableName: 'users' })
 export class User extends Model<User, UserCreationAttributes> {
   @ApiProperty({ example: 'uuidv4userid', description: 'Universally unique identifier' })
-  @Column({ type: DataType.UUIDV4, unique: true, primaryKey: true })
+  @Column({ type: DataType.STRING, unique: true, primaryKey: true })
   id: string;
 
   @ApiProperty({ example: 'BravePlant', description: 'Username' })
