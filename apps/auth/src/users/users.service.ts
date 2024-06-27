@@ -3,6 +3,7 @@ import { CreateUserDto, UpdateUserDto } from './dto';
 import { UserRepository } from './user.repository';
 import { WhereOptions } from 'sequelize';
 import { User } from '@app/common/database';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -21,7 +22,10 @@ export class UsersService {
   }
 
   public async create(dto: CreateUserDto) {
-    return await this.userRepository.create(dto);
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(dto.password, salt);
+
+    return await this.userRepository.create({ ...dto, password: hash });
   }
 
   public async update(id: string, dto: UpdateUserDto) {
