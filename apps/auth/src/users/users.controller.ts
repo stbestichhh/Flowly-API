@@ -23,6 +23,7 @@ import {
 import { User } from '@app/common/database';
 import { WhereOptions } from 'sequelize';
 import { AuthGuard } from '@app/common/guards';
+import { AddRoleDto } from './dto/add-role.dto';
 
 @ApiTags('Users')
 @UseGuards(AuthGuard)
@@ -89,8 +90,16 @@ export class UsersController {
   @ApiOperation({ summary: 'Block user' })
   @ApiResponse({ status: 200, description: 'User blocked' })
   @ApiResponse({ status: 404, description: 'User not found' })
-  @Post('ban/:id')
-  public async blockUser(@Param('id') id: string, @Body() dto: BanUserDto) {
-    return await this.userService.update(id, dto);
+  @Post('ban')
+  public async blockUser(@Body() dto: BanUserDto) {
+    return await this.userService.update(dto.userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Give user role' })
+  @ApiResponse({ status: 200, description: 'Role assigned' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  @Post('/role')
+  public async addRole(@Body() dto: AddRoleDto) {
+    return await this.userService.addRole(dto.userId, dto);
   }
 }

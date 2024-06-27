@@ -8,6 +8,8 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { AbstractDto } from '@app/common/dto';
 
+export class UserDto extends AbstractDto {}
+
 export class CreateUserDto extends AbstractDto {
   @ApiProperty({ example: 'BravePlant', description: 'Username' })
   @IsNotEmpty()
