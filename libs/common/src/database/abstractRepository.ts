@@ -27,9 +27,9 @@ export class AbstractRepository<TModel extends Model> {
   async findAll() {
     const entities = await this.model.findAll();
 
-    if (!entities) {
+    if (!entities.length) {
       throw new NotFoundException(
-        `Entities of type: ${typeof this.model} not found`,
+        `Entities of type: ${this.model.name} not found`,
       );
     }
 
