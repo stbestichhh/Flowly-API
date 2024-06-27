@@ -15,7 +15,7 @@ export class AuthController {
   @ApiResponse({ status: 403, description: 'User already exists' })
   @HttpCode(HttpStatus.CREATED)
   @Post('signup')
-  async signup(@Body() dto: CreateUserDto) {
+  public async signup(@Body() dto: CreateUserDto) {
     return await this.authService.signup(dto);
   }
 
@@ -26,7 +26,7 @@ export class AuthController {
   })
   @ApiResponse({ status: 403, description: 'Credentials are incorrect' })
   @Post('signin')
-  async signin(@Body() dto: SigninDto) {
+  public async signin(@Body() dto: SigninDto) {
     return await this.authService.signin(dto);
   }
 }

@@ -40,7 +40,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: 'User not found by: email' })
   @Get('search')
-  async getByOptions(@Query() options: WhereOptions<User>) {
+  public async getByOptions(@Query() options: WhereOptions<User>) {
     return await this.userService.getOne(options);
   }
 
@@ -48,7 +48,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: `User not found by id` })
   @Get(':id')
-  async getById(@Param('id') id: string) {
+  public async getById(@Param('id') id: string) {
     return await this.userService.getById(id);
   }
 
@@ -56,7 +56,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: [User] })
   @ApiResponse({ status: 404, description: 'Entities of type: User not found' })
   @Get()
-  async getAll() {
+  public async getAll() {
     return await this.userService.getAll();
   }
 
