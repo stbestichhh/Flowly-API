@@ -1,6 +1,6 @@
 import { Model, ModelCtor } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
-import { ForbiddenException, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { AbstractDto } from '@app/common/dto';
 import { CreationAttributes } from 'sequelize/types/model';
 import { ValidationError, WhereOptions } from 'sequelize';
@@ -15,9 +15,11 @@ export class AbstractRepository<TModel extends Model> {
         id: uuidv4(),
       })
       .catch((e) => {
+        console.error(e);
         if (e instanceof ValidationError) {
           throw new ForbiddenException(`${this.model.name} already exists`);
         }
+        throw new InternalServerErrorException();
       });
   }
 

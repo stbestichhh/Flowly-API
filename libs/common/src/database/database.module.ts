@@ -20,6 +20,7 @@ import * as process from 'process';
         database: configService.get('POSTGRES_DB'),
         models: [User, Role, UserRole],
         autoLoadModels: true,
+        sync: { alter: true, force: false },
       }),
       inject: [ConfigService],
       imports: [ConfigModule],

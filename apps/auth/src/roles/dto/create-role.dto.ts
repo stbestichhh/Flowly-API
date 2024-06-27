@@ -1,5 +1,5 @@
 import { AbstractDto } from '@app/common/dto';
-import { IsNotEmpty, IsString, IsUppercase } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUppercase } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateRoleDto extends AbstractDto {
@@ -8,4 +8,9 @@ export class CreateRoleDto extends AbstractDto {
   @IsNotEmpty()
   @IsUppercase()
   readonly value: string;
+
+  @ApiProperty({ example: 'System administrator, has access to all features', description: 'Role description' })
+  @IsString()
+  @IsOptional()
+  readonly description?: string;
 }
