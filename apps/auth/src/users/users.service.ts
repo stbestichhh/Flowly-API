@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { BanUserDto, CreateUserDto, UpdateUserDto } from './dto';
 import { UserRepository } from './user.repository';
 import { WhereOptions } from 'sequelize';
 import { User } from '@app/common/database';
@@ -28,7 +28,7 @@ export class UsersService {
     return await this.userRepository.create({ ...dto, password: hash });
   }
 
-  public async update(id: string, dto: UpdateUserDto) {
+  public async update(id: string, dto: UpdateUserDto | BanUserDto) {
     return await this.userRepository.update(id, dto);
   }
 

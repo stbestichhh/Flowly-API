@@ -12,7 +12,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { BanUserDto, CreateUserDto, UpdateUserDto } from './dto';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -65,7 +65,7 @@ export class UsersController {
   @ApiResponse({ status: 403, description: 'User already exists' })
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  async create(@Body() dto: CreateUserDto) {
+  public async create(@Body() dto: CreateUserDto) {
     return await this.userService.create(dto);
   }
 
@@ -73,7 +73,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: 'User not found' })
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
+  public async update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
     return await this.userService.update(id, dto);
   }
 
@@ -82,7 +82,15 @@ export class UsersController {
   @ApiResponse({ status: 404, description: 'User not found' })
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
-  async delete(@Param('id') id: string) {
+  public async delete(@Param('id') id: string) {
     return await this.userService.delete(id);
+  }
+
+  @ApiOperation({ summary: 'Block user' })
+  @ApiResponse({ status: 200, description: 'User blocked' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  @Post('ban/:id')
+  public async blockUser(@Param('id') id: string, @Body() dto: BanUserDto) {
+    return await this.userService.update(id, dto);
   }
 }
