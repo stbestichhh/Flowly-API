@@ -9,7 +9,11 @@ import { RoleRepository } from '../roles/role.repository';
 @Module({
   providers: [UsersService, UserRepository, RoleRepository],
   controllers: [UsersController],
-  imports: [DatabaseModule, DatabaseModule.forFeatue([Role, User, UserRole]), JwtModule],
+  imports: [
+    DatabaseModule,
+    DatabaseModule.forFeatue([Role, User, UserRole]),
+    JwtModule,
+  ],
   exports: [UsersService],
 })
 export class UsersModule {}

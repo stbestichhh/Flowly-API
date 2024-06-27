@@ -1,6 +1,12 @@
 import { AbstractDto } from '@app/common/dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export class BanUserDto extends AbstractDto {
   @ApiProperty({ example: 'useruuid', description: 'User id' })
@@ -13,7 +19,10 @@ export class BanUserDto extends AbstractDto {
   @IsBoolean()
   readonly isBanned: boolean;
 
-  @ApiProperty({ example: 'Has been blocked for abuse', description: 'Block status reason' })
+  @ApiProperty({
+    example: 'Has been blocked for abuse',
+    description: 'Block status reason',
+  })
   @IsString()
   @IsOptional()
   @Length(5)

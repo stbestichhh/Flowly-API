@@ -1,6 +1,10 @@
 import { Model, ModelCtor } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
-import { ForbiddenException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { AbstractDto } from '@app/common/dto';
 import { CreationAttributes } from 'sequelize/types/model';
 import { ValidationError, WhereOptions } from 'sequelize';
@@ -10,12 +14,15 @@ export class AbstractRepository<TModel extends Model> {
 
   async create(dto: CreationAttributes<TModel>) {
     return await this.model
-      .create({
-        ...dto,
-        id: uuidv4(),
-      }, {
-        include: { all: true }
-      })
+      .create(
+        {
+          ...dto,
+          id: uuidv4(),
+        },
+        {
+          include: { all: true },
+        },
+      )
       .catch((e) => {
         console.error(e);
         if (e instanceof ValidationError) {
@@ -27,7 +34,7 @@ export class AbstractRepository<TModel extends Model> {
 
   async findByPk(id: string) {
     const entity = await this.model.findByPk(id, {
-      include: { all: true }
+      include: { all: true },
     });
 
     if (!entity) {
@@ -40,7 +47,7 @@ export class AbstractRepository<TModel extends Model> {
   async findOne(options: WhereOptions<TModel>) {
     const entity = await this.model.findOne({
       where: options,
-      include: { all: true }
+      include: { all: true },
     });
 
     if (!entity) {
@@ -54,7 +61,7 @@ export class AbstractRepository<TModel extends Model> {
 
   async findAll() {
     const entities = await this.model.findAll({
-      include: { all: true }
+      include: { all: true },
     });
 
     if (!entities.length) {

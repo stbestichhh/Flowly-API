@@ -10,7 +10,10 @@ import { RolesEnum } from '@app/common/enums';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly userRepository: UserRepository, private readonly roleReposity: RoleRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly roleReposity: RoleRepository,
+  ) {}
 
   public async getById(id: string) {
     return await this.userRepository.findByPk(id);

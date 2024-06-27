@@ -8,6 +8,10 @@ import { RoleRepository } from './role.repository';
 @Module({
   providers: [RolesService, RoleRepository],
   controllers: [RolesController],
-  imports: [DatabaseModule, DatabaseModule.forFeatue([Role, User, UserRole]), JwtModule],
+  imports: [
+    DatabaseModule,
+    DatabaseModule.forFeatue([Role, User, UserRole]),
+    JwtModule,
+  ],
 })
 export class RolesModule {}

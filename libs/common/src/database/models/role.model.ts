@@ -1,4 +1,10 @@
-import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { User, UserRole } from '@app/common/database';
 
@@ -20,7 +26,10 @@ export class Role extends Model<Role, RoleCreationAttributes> {
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   value: string;
 
-  @ApiProperty({ example: 'System administrator, has access to all features', description: 'Role description' })
+  @ApiProperty({
+    example: 'System administrator, has access to all features',
+    description: 'Role description',
+  })
   @Column({ type: DataType.STRING, allowNull: true })
   description: string;
 

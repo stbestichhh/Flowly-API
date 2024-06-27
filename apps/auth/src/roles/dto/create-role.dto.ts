@@ -9,7 +9,10 @@ export class CreateRoleDto extends AbstractDto {
   @IsUppercase()
   readonly value: string;
 
-  @ApiProperty({ example: 'System administrator, has access to all features', description: 'Role description' })
+  @ApiProperty({
+    example: 'System administrator, has access to all features',
+    description: 'Role description',
+  })
   @IsString()
   @IsOptional()
   readonly description?: string;
