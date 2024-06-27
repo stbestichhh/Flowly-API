@@ -7,11 +7,11 @@ import {
   HttpStatus,
   Param,
   Patch,
-  Post,
+  Post, Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './dto';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '@app/common/database';
 import { WhereOptions } from 'sequelize';
 
@@ -21,11 +21,11 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @ApiOperation({ summary: 'Get user by his properties' })
-  @ApiBody({ examples: { findExample: { summary: 'Find user by his email', value: { email: 'brave_plant@garden.com' } }}, description: 'Specific user properties' })
+  @ApiQuery({ name: 'email', example: 'brave_plant@garden.com', description: 'Find user by his properties' })
   @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: 'User not found by: email' })
-  @Get('user')
-  getByOptions(@Body() options: WhereOptions<User>) {
+  @Get('search')
+  getByOptions(@Query() options: WhereOptions<User>) {
     return this.userService.getOne(options);
   }
 
