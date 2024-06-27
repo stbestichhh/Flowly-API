@@ -1,12 +1,13 @@
 import {
   CanActivate,
-  ExecutionContext,
+  ExecutionContext, ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import e from 'express';
 import { ConfigService } from '@nestjs/config';
+import { IjwtPayload } from '../interfaces';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -23,13 +24,19 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
-    request.user = await this.jwtService
+    const payload: IjwtPayload = await this.jwtService
       .verifyAsync(token, {
         secret: this.configService.get('SECRET_KEY'),
       })
       .catch(() => {
         throw new UnauthorizedException();
       });
+
+    if (payload.banStatus) {
+      throw new ForbiddenException('Your account has been blocked');
+    }
+
+    request.user = payload;
 
     return true;
   }

@@ -3,7 +3,7 @@ import { SigninDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from './users/users.service';
 import { CreateUserDto } from './users/dto';
-import { IjwtPayload } from './interfaces';
+import { IjwtPayload } from '@app/common/interfaces';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -30,7 +30,7 @@ export class AuthService {
       throw new ForbiddenException('Credentials are incorrect');
     }
 
-    const payload: IjwtPayload = { sub: user.id, email: user.email };
+    const payload: IjwtPayload = { sub: user.id, email: user.email, banStatus: user.isBanned };
 
     return { authentication_token: await this.jwtService.signAsync(payload) };
   }
