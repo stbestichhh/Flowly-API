@@ -1,17 +1,24 @@
 import { Model, ModelCtor } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
-import { NotFoundException } from '@nestjs/common';
+import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { AbstractDto } from '@app/common/dto';
 import { CreationAttributes } from 'sequelize/types/model';
+import { ValidationError, WhereOptions } from 'sequelize';
 
 export class AbstractRepository<TModel extends Model> {
   constructor(protected readonly model: ModelCtor<TModel>) {}
 
   async create(dto: CreationAttributes<TModel>) {
-    return await this.model.create({
-      ...dto,
-      id: uuidv4(),
-    });
+    return await this.model
+      .create({
+        ...dto,
+        id: uuidv4(),
+      })
+      .catch((e) => {
+        if (e instanceof ValidationError) {
+          throw new ForbiddenException(`${this.model.name} already exists`);
+        }
+      });
   }
 
   async findByPk(id: string) {
@@ -19,6 +26,18 @@ export class AbstractRepository<TModel extends Model> {
 
     if (!entity) {
       throw new NotFoundException(`Entity not found by id: ${id}`);
+    }
+
+    return entity;
+  }
+
+  async findOne(options: WhereOptions<TModel>) {
+    const entity = await this.model.findOne({
+      where: options,
+    });
+
+    if (!entity) {
+      throw new NotFoundException(`Entity not found by: ${Object.keys(options)}`);
     }
 
     return entity;

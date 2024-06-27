@@ -13,11 +13,19 @@ import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '@app/common/database';
+import { WhereOptions } from 'sequelize';
 
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
+
+  @ApiOperation({ summary: 'Get user by his properties' })
+  @ApiResponse({ status: 200, type: User })
+  @Get('user')
+  getByOptions(@Body() options: WhereOptions<User>) {
+    return this.userService.getOne(options);
+  }
 
   @ApiOperation({ summary: 'Get user by his uuid' })
   @ApiResponse({ status: 200, type: User })

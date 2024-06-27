@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { UserRepository } from './user.repository';
+import { WhereOptions } from 'sequelize';
+import { User } from '@app/common/database';
 
 @Injectable()
 export class UsersService {
@@ -8,6 +10,10 @@ export class UsersService {
 
   public async getById(id: string) {
     return await this.userRepository.findByPk(id);
+  }
+
+  public async getOne(options: WhereOptions<User>) {
+    return await this.userRepository.findOne(options);
   }
 
   public async getAll() {
