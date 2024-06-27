@@ -34,7 +34,7 @@ export class RolesController {
   @ApiResponse({ status: 404, description: 'Role not found by: value' })
   @Get('search')
   public async getByOption(@Query() options: WhereOptions<Role>) {
-    return await this.rolesService.getByOne(options);
+    return await this.rolesService.getOne(options);
   }
 
   @ApiOperation({ summary: 'Get role by id' })
