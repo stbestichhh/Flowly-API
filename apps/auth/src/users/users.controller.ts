@@ -8,17 +8,25 @@ import {
   Param,
   Patch,
   Post,
-  Query, UseGuards,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './dto';
-import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { User } from '@app/common/database';
 import { WhereOptions } from 'sequelize';
 import { AuthGuard } from '@app/common/guards';
 
 @ApiTags('Users')
 @UseGuards(AuthGuard)
+@ApiBearerAuth()
 @Controller('auth/users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
@@ -70,7 +78,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Get user by his uuid' })
-  @ApiResponse({ status: 204 })
+  @ApiResponse({ status: 204, description: 'User deleted' })
   @ApiResponse({ status: 404, description: 'User not found' })
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')

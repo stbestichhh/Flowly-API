@@ -29,7 +29,7 @@ async function bootstrap() {
 
   await app.listen(PORT, HOST, async () => {
     console.log(
-      `Service is runnig on ${await app.getUrl()}\nVisit ${await app.getUrl()}/api/auth/docs to see API documentation`,
+      `Service is runnig on ${await app.getUrl()}\nDocs: ${await app.getUrl()}/api/auth/docs`,
     );
   });
 }
