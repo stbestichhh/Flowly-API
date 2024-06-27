@@ -22,11 +22,14 @@ import {
 } from '@nestjs/swagger';
 import { User } from '@app/common/database';
 import { WhereOptions } from 'sequelize';
-import { AuthGuard } from '@app/common/guards';
+import { AuthGuard, RoleGuard } from '@app/common/guards';
 import { AddRoleDto } from './dto/add-role.dto';
+import { Roles } from '@app/common/decorators/role.decorator';
+import { RolesEnum } from '@app/common/enums';
 
 @ApiTags('Users')
-@UseGuards(AuthGuard)
+@Roles(RolesEnum.ADMIN)
+@UseGuards(AuthGuard, RoleGuard)
 @ApiBearerAuth()
 @Controller('auth/users')
 export class UsersController {

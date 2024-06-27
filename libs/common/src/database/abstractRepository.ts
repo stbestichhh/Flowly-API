@@ -13,6 +13,8 @@ export class AbstractRepository<TModel extends Model> {
       .create({
         ...dto,
         id: uuidv4(),
+      }, {
+        include: { all: true }
       })
       .catch((e) => {
         console.error(e);
@@ -24,7 +26,9 @@ export class AbstractRepository<TModel extends Model> {
   }
 
   async findByPk(id: string) {
-    const entity = await this.model.findByPk(id);
+    const entity = await this.model.findByPk(id, {
+      include: { all: true }
+    });
 
     if (!entity) {
       throw new NotFoundException(`Entity not found by id: ${id}`);
@@ -36,11 +40,12 @@ export class AbstractRepository<TModel extends Model> {
   async findOne(options: WhereOptions<TModel>) {
     const entity = await this.model.findOne({
       where: options,
+      include: { all: true }
     });
 
     if (!entity) {
       throw new NotFoundException(
-        `Entity not found by properties: ${Object.keys(options).join(', ')}`,
+        `Entity of type: ${this.model.name} not found by properties: ${Object.keys(options).join(', ')}`,
       );
     }
 
@@ -48,7 +53,9 @@ export class AbstractRepository<TModel extends Model> {
   }
 
   async findAll() {
-    const entities = await this.model.findAll();
+    const entities = await this.model.findAll({
+      include: { all: true }
+    });
 
     if (!entities.length) {
       throw new NotFoundException(

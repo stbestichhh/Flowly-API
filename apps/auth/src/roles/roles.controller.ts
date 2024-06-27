@@ -1,25 +1,17 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Post,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@app/common/guards';
+import { AuthGuard, RoleGuard } from '@app/common/guards';
 import { RolesService } from './roles.service';
 import { WhereOptions } from 'sequelize';
 import { Role } from '@app/common/database';
 import { CreateRoleDto } from './dto';
+import { Roles } from '@app/common/decorators/role.decorator';
+import { RolesEnum } from '@app/common/enums';
 
 @ApiTags('Roles')
 @ApiBearerAuth()
-@UseGuards(AuthGuard)
+@Roles(RolesEnum.ADMIN)
+@UseGuards(AuthGuard, RoleGuard)
 @Controller('auth/roles')
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}

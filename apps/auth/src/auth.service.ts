@@ -30,7 +30,8 @@ export class AuthService {
       throw new ForbiddenException('Credentials are incorrect');
     }
 
-    const payload: IjwtPayload = { sub: user.id, email: user.email, banStatus: user.isBanned };
+    const roles = user.roles.map(role => role.value);
+    const payload: IjwtPayload = { sub: user.id, email: user.email, banStatus: user.isBanned, roles };
 
     return { authentication_token: await this.jwtService.signAsync(payload) };
   }
