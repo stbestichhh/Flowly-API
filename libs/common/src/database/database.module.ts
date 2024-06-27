@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User } from '@app/common/database/models';
+import { Role, User, UserRole } from '@app/common/database/models';
 import * as process from 'process';
 
 @Module({
@@ -18,7 +18,7 @@ import * as process from 'process';
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
-        models: [User],
+        models: [User, Role, UserRole],
         autoLoadModels: true,
       }),
       inject: [ConfigService],

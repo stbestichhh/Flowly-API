@@ -15,6 +15,7 @@ import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@ne
 import { AuthGuard } from '@app/common/guards';
 import { RolesService } from './roles.service';
 import { WhereOptions } from 'sequelize';
+import { Role } from '@app/common/database';
 
 @ApiTags('Roles')
 @ApiBearerAuth()
