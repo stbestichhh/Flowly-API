@@ -16,6 +16,7 @@ import { AuthGuard } from '@app/common/guards';
 import { RolesService } from './roles.service';
 import { WhereOptions } from 'sequelize';
 import { Role } from '@app/common/database';
+import { CreateRoleDto } from './dto';
 
 @ApiTags('Roles')
 @ApiBearerAuth()
@@ -41,7 +42,7 @@ export class RolesController {
   @ApiResponse({ status: 200, type: Role })
   @ApiResponse({ status: 404, description: 'Role not found by: id' })
   @Get(':id')
-  public async getById(@Param('id', ParseIntPipe) id: number) {
+  public async getById(@Param('id') id: string) {
     return await this.rolesService.getById(id);
   }
 
@@ -67,7 +68,7 @@ export class RolesController {
   @ApiResponse({ status: 404, description: 'Role not found by: id' })
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
-  public async delete(@Param('id', ParseIntPipe) id: number) {
+  public async delete(@Param('id') id: string) {
     return await this.rolesService.delete(id);
   }
 }
