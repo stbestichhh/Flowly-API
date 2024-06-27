@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { SigninDto } from './dto';
 
 @Injectable()
 export class AuthService {
-  getHello(): string {
-    return 'Hello World!';
+  async signin(dto: SigninDto) {
+    
   }
 }

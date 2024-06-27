@@ -17,7 +17,7 @@ import { User } from '@app/common/database';
 import { WhereOptions } from 'sequelize';
 
 @ApiTags('Users')
-@Controller('users')
+@Controller('auth/users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
@@ -30,24 +30,24 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: 'User not found by: email' })
   @Get('search')
-  getByOptions(@Query() options: WhereOptions<User>) {
-    return this.userService.getOne(options);
+  async getByOptions(@Query() options: WhereOptions<User>) {
+    return await this.userService.getOne(options);
   }
 
   @ApiOperation({ summary: 'Get user by his uuid' })
   @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: `User not found by id` })
   @Get(':id')
-  getById(@Param('id') id: string) {
-    return this.userService.getById(id);
+  async getById(@Param('id') id: string) {
+    return await this.userService.getById(id);
   }
 
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, type: [User] })
   @ApiResponse({ status: 404, description: 'Entities of type: User not found' })
   @Get()
-  getAll() {
-    return this.userService.getAll();
+  async getAll() {
+    return await this.userService.getAll();
   }
 
   @ApiOperation({ summary: 'Create new user' })
@@ -55,16 +55,16 @@ export class UsersController {
   @ApiResponse({ status: 403, description: 'User already exists' })
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  create(@Body() dto: CreateUserDto) {
-    return this.userService.create(dto);
+  async create(@Body() dto: CreateUserDto) {
+    return await this.userService.create(dto);
   }
 
   @ApiOperation({ summary: 'Update user by his uuid' })
   @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: 'User not found' })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
-    return this.userService.update(id, dto);
+  async update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
+    return await this.userService.update(id, dto);
   }
 
   @ApiOperation({ summary: 'Get user by his uuid' })
@@ -72,7 +72,7 @@ export class UsersController {
   @ApiResponse({ status: 404, description: 'User not found' })
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.userService.delete(id);
+  async delete(@Param('id') id: string) {
+    return await this.userService.delete(id);
   }
 }
