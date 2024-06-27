@@ -37,7 +37,9 @@ export class AbstractRepository<TModel extends Model> {
     });
 
     if (!entity) {
-      throw new NotFoundException(`Entity not found by properties: ${Object.keys(options).join(', ')}`);
+      throw new NotFoundException(
+        `Entity not found by properties: ${Object.keys(options).join(', ')}`,
+      );
     }
 
     return entity;

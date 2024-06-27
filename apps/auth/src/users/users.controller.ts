@@ -7,7 +7,8 @@ import {
   HttpStatus,
   Param,
   Patch,
-  Post, Query,
+  Post,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './dto';
@@ -21,7 +22,11 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @ApiOperation({ summary: 'Get user by his properties' })
-  @ApiQuery({ name: 'email', example: 'brave_plant@garden.com', description: 'Find user by his properties' })
+  @ApiQuery({
+    name: 'email',
+    example: 'brave_plant@garden.com',
+    description: 'Find user by his properties',
+  })
   @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: 'User not found by: email' })
   @Get('search')

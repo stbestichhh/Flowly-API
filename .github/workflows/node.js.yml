@@ -26,10 +26,10 @@ jobs:
           cache: 'npm'
       - name: Download dependencies
         run: yarn
-      - name: Run linter
-        run: yarn lint
       - name: Run prettier
         run: yarn format
+      - name: Run linter
+        run: yarn lint
       - name: Build
         run: yarn build
 
@@ -49,10 +49,10 @@ jobs:
           cache: 'npm'
       - name: Download dependencies
         run: yarn
-      - name: Run linter
-        run: yarn lint
       - name: Run prettier
         run: yarn format
+      - name: Run linter
+        run: yarn lint
       - name: Run unit tests
         run: yarn test --passWithNoTests
   e2e-test:
@@ -71,9 +71,9 @@ jobs:
           cache: 'npm'
       - name: Download dependencies
         run: yarn
-      - name: Run linter
-        run: yarn lint
       - name: Run prettier
         run: yarn format
+      - name: Run linter
+        run: yarn lint
       - name: Run e2e tests
         run: yarn test:e2e --passWithNoTests
