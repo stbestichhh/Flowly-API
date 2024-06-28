@@ -30,7 +30,6 @@ async function bootstrap() {
     }),
   );
 
-
   const PORT = configService.get('HTTP_PORT');
   const HOST = configService.get('HTTP_HOST');
 
