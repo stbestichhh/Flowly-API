@@ -24,7 +24,7 @@ import { User } from '@app/common/database';
 import { WhereOptions } from 'sequelize';
 import { AuthGuard, RoleGuard } from '@app/common/guards';
 import { AddRoleDto } from './dto/add-role.dto';
-import { Roles } from '@app/common/decorators/role.decorator';
+import { Roles } from '@app/common/decorators';
 import { RolesEnum } from '@app/common/enums';
 
 @ApiTags('Users')
@@ -67,6 +67,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Create new user' })
   @ApiResponse({ status: 201, type: User })
   @ApiResponse({ status: 403, description: 'User already exists' })
+  @ApiResponse({ status: 400, description: 'Body is not correct' })
   @HttpCode(HttpStatus.CREATED)
   @Post()
   public async create(@Body() dto: CreateUserDto) {
@@ -76,6 +77,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Update user by his uuid' })
   @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiResponse({ status: 400, description: 'Body is not correct' })
   @Patch(':id')
   public async update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
     return await this.userService.update(id, dto);
@@ -93,6 +95,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Block user' })
   @ApiResponse({ status: 200, description: 'User blocked' })
   @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiResponse({ status: 400, description: 'Body is not correct' })
   @Post('ban')
   public async blockUser(@Body() dto: BanUserDto) {
     return await this.userService.update(dto.userId, dto);
@@ -101,6 +104,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Give user role' })
   @ApiResponse({ status: 200, description: 'Role assigned' })
   @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiResponse({ status: 400, description: 'Body is not correct' })
   @Post('/role')
   public async addRole(@Body() dto: AddRoleDto) {
     return await this.userService.addRole(dto.userId, dto);

@@ -13,6 +13,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Create new account' })
   @ApiResponse({ status: 201, type: User })
   @ApiResponse({ status: 403, description: 'User already exists' })
+  @ApiResponse({ status: 400, description: 'Body is not correct' })
   @HttpCode(HttpStatus.CREATED)
   @Post('signup')
   public async signup(@Body() dto: CreateUserDto) {
@@ -25,6 +26,7 @@ export class AuthController {
     content: { response: { example: { authentication_token: 'token' } } },
   })
   @ApiResponse({ status: 403, description: 'Credentials are incorrect' })
+  @ApiResponse({ status: 400, description: 'Body is not correct' })
   @Post('signin')
   public async signin(@Body() dto: SigninDto) {
     return await this.authService.signin(dto);

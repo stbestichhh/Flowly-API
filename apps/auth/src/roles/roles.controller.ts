@@ -22,7 +22,7 @@ import { RolesService } from './roles.service';
 import { WhereOptions } from 'sequelize';
 import { Role } from '@app/common/database';
 import { CreateRoleDto } from './dto';
-import { Roles } from '@app/common/decorators/role.decorator';
+import { Roles } from '@app/common/decorators';
 import { RolesEnum } from '@app/common/enums';
 
 @ApiTags('Roles')
@@ -65,6 +65,7 @@ export class RolesController {
   @ApiOperation({ summary: 'Create new role' })
   @ApiResponse({ status: 201, type: Role })
   @ApiResponse({ status: 403, description: 'Role already exists' })
+  @ApiResponse({ status: 400, description: 'Body is not correct' })
   @HttpCode(HttpStatus.CREATED)
   @Post()
   public async create(@Body() dto: CreateRoleDto) {
