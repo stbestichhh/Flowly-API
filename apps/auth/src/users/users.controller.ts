@@ -98,7 +98,7 @@ export class UsersController {
   @ApiResponse({ status: 400, description: 'Body is not correct' })
   @Post('ban')
   public async blockUser(@Body() dto: BanUserDto) {
-    return await this.userService.update(dto.userId, dto);
+    return await this.userService.banUser(dto);
   }
 
   @ApiOperation({ summary: 'Give user role' })
@@ -107,6 +107,6 @@ export class UsersController {
   @ApiResponse({ status: 400, description: 'Body is not correct' })
   @Post('/role')
   public async addRole(@Body() dto: AddRoleDto) {
-    return await this.userService.addRole(dto.userId, dto);
+    return await this.userService.addRole(dto);
   }
 }

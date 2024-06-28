@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { BanUserDto, CreateUserDto, UpdateUserDto } from './dto';
 import { UserRepository } from './user.repository';
 import { WhereOptions } from 'sequelize';
 import { User } from '@app/common/database';
@@ -51,12 +51,16 @@ export class UsersService {
     return await this.userRepository.delete(id);
   }
 
-  public async addRole(id: string, dto: AddRoleDto) {
-    const user = await this.userRepository.findByPk(id);
+  public async addRole(dto: AddRoleDto) {
+    const user = await this.userRepository.findByPk(dto.userId);
     const role = await this.roleReposity.findOne({ value: dto.role });
 
     await user.$add('role', role.id);
     return user;
+  }
+
+  public async banUser(dto: BanUserDto) {
+    return await this.userRepository.update(dto.userId, dto);
   }
 
   private async hashPassword(password: string) {
