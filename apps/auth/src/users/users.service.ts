@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto, UserDto } from './dto';
+import { CreateUserDto, UpdateUserDto } from './dto';
 import { UserRepository } from './user.repository';
 import { WhereOptions } from 'sequelize';
 import { User } from '@app/common/database';
