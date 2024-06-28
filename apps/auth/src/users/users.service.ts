@@ -28,7 +28,10 @@ export class UsersService {
   }
 
   public async create(dto: CreateUserDto) {
-    const user = await this.userRepository.create({ ...dto, password: await this.hashPassword(dto.password) });
+    const user = await this.userRepository.create({
+      ...dto,
+      password: await this.hashPassword(dto.password),
+    });
     const role = await this.roleReposity.findOne({ value: RolesEnum.USER });
 
     await user.$set('roles', [role.id]);

@@ -1,6 +1,11 @@
 import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Roles } from '@app/common/decorators/role.decorator';
 import { RolesEnum } from '@app/common/enums';
 import { AuthGuard, RoleGuard } from '@app/common/guards';
@@ -29,7 +34,10 @@ export class CurrentUserController {
   @ApiResponse({ status: 404, description: 'User not found by id' })
   @ApiResponse({ status: 400, description: 'Body is not correct' })
   @Patch()
-  public async updateCurrentUser(@CurrentUser('sub') id: string, @Body() dto: UpdateUserDto) {
+  public async updateCurrentUser(
+    @CurrentUser('sub') id: string,
+    @Body() dto: UpdateUserDto,
+  ) {
     return await this.userService.update(id, dto);
   }
 }
