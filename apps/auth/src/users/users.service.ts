@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto, UserDto } from './dto';
+import { CreateUserDto, UpdateUserDto, UserDto } from './dto';
 import { UserRepository } from './user.repository';
 import { WhereOptions } from 'sequelize';
 import { User } from '@app/common/database';
@@ -28,10 +28,7 @@ export class UsersService {
   }
 
   public async create(dto: CreateUserDto) {
-    const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(dto.password, salt);
-
-    const user = await this.userRepository.create({ ...dto, password: hash });
+    const user = await this.userRepository.create({ ...dto, password: await this.hashPassword(dto.password) });
     const role = await this.roleReposity.findOne({ value: RolesEnum.USER });
 
     await user.$set('roles', [role.id]);
@@ -39,7 +36,11 @@ export class UsersService {
     return user;
   }
 
-  public async update(id: string, dto: UserDto) {
+  public async update(id: string, dto: UpdateUserDto) {
+    if (dto.password) {
+      dto.password = await this.hashPassword(dto.password);
+    }
+
     return await this.userRepository.update(id, dto);
   }
 
@@ -53,5 +54,10 @@ export class UsersService {
 
     await user.$add('role', role.id);
     return user;
+  }
+
+  private async hashPassword(password: string) {
+    const salt = await bcrypt.genSalt();
+    return await bcrypt.hash(password, salt);
   }
 }

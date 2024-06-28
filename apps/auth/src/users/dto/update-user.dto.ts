@@ -22,5 +22,5 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @Length(4, 16, {
     message: 'Password length has to be between 4 and 16 characters length',
   })
-  readonly password: string;
+  public password: string;
 }
