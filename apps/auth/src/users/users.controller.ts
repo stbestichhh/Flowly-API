@@ -31,7 +31,7 @@ import { RolesEnum } from '@app/common/enums';
 @Roles(RolesEnum.ADMIN)
 @UseGuards(AuthGuard, RoleGuard)
 @ApiBearerAuth()
-@Controller('auth/users')
+@Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 

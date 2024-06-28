@@ -29,7 +29,7 @@ import { RolesEnum } from '@app/common/enums';
 @ApiBearerAuth()
 @Roles(RolesEnum.ADMIN)
 @UseGuards(AuthGuard, RoleGuard)
-@Controller('auth/roles')
+@Controller('roles')
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 

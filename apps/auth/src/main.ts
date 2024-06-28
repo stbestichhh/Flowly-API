@@ -1,12 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AuthModule } from './auth.module';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
+import { Logger as PinoLogger } from 'nestjs-pino';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AuthModule);
+  const app = await NestFactory.create(AuthModule, {
+    bufferLogs: true,
+  });
   const configService = app.get(ConfigService);
+  const logger = new Logger(bootstrap.name);
+
+  app.useLogger(app.get(PinoLogger));
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Authorization')
@@ -24,13 +30,13 @@ async function bootstrap() {
     }),
   );
 
+
   const PORT = configService.get('HTTP_PORT');
   const HOST = configService.get('HTTP_HOST');
 
   await app.listen(PORT, HOST, async () => {
-    console.log(
-      `Service is runnig on ${await app.getUrl()}\nDocs: ${await app.getUrl()}/api/auth/docs`,
-    );
+    logger.log(`Service is running on ${await app.getUrl()}`);
+    logger.log(`Docs are running on: ${await app.getUrl()}/api/auth/docs`);
   });
 }
 bootstrap();

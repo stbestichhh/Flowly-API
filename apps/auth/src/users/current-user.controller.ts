@@ -1,11 +1,6 @@
 import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from '@app/common/decorators/role.decorator';
 import { RolesEnum } from '@app/common/enums';
 import { AuthGuard, RoleGuard } from '@app/common/guards';
@@ -14,10 +9,16 @@ import { User } from '@app/common/database';
 import { CurrentUser } from '@app/common/decorators';
 
 @ApiTags('Current user')
-@Roles(RolesEnum.USER)
+@Roles(
+  RolesEnum.ADMIN,
+  RolesEnum.PROJECT_MANAGER,
+  RolesEnum.TEAMLEAD,
+  RolesEnum.COLLABORATOR,
+  RolesEnum.USER,
+)
 @UseGuards(AuthGuard, RoleGuard)
 @ApiBearerAuth()
-@Controller('auth/user/me')
+@Controller('user/me')
 export class CurrentUserController {
   constructor(private readonly userService: UsersService) {}
 

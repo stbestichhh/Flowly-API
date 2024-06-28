@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   ForbiddenException,
   InternalServerErrorException,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { AbstractDto } from '@app/common/dto';
@@ -10,6 +11,8 @@ import { CreationAttributes } from 'sequelize/types/model';
 import { ValidationError, WhereOptions } from 'sequelize';
 
 export class AbstractRepository<TModel extends Model> {
+  private readonly logger = new Logger(AbstractRepository.name);
+
   constructor(protected readonly model: ModelCtor<TModel>) {}
 
   async create(dto: CreationAttributes<TModel>) {
@@ -24,10 +27,10 @@ export class AbstractRepository<TModel extends Model> {
         },
       )
       .catch((e) => {
-        console.error(e);
         if (e instanceof ValidationError) {
           throw new ForbiddenException(`${this.model.name} already exists`);
         }
+        this.logger.error(e);
         throw new InternalServerErrorException();
       });
   }
