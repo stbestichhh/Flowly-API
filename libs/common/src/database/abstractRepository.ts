@@ -10,10 +10,10 @@ import { AbstractDto } from '@app/common/dto';
 import { CreationAttributes } from 'sequelize/types/model';
 import { ValidationError, WhereOptions } from 'sequelize';
 
-export class AbstractRepository<TModel extends Model> {
+export abstract class AbstractRepository<TModel extends Model> {
   private readonly logger = new Logger(AbstractRepository.name);
 
-  constructor(protected readonly model: ModelCtor<TModel>) {}
+  protected constructor(protected readonly model: ModelCtor<TModel>) {}
 
   async create(dto: CreationAttributes<TModel>) {
     return await this.model
