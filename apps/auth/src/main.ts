@@ -4,6 +4,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { Logger as PinoLogger } from 'nestjs-pino';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AuthModule, {
@@ -29,6 +30,9 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+
+  app.use(helmet());
+  app.enableCors();
 
   const PORT = configService.get('HTTP_PORT');
   const HOST = configService.get('HTTP_HOST');
