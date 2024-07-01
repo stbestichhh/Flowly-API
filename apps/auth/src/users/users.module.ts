@@ -12,7 +12,7 @@ import { CurrentUserController } from './current-user.controller';
   controllers: [UsersController, CurrentUserController],
   imports: [
     DatabaseModule,
-    DatabaseModule.forFeatue([Role, User, UserRole]),
+    DatabaseModule.forFeature([Role, User, UserRole]),
     JwtModule,
   ],
   exports: [UsersService],

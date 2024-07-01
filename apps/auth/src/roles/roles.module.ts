@@ -10,7 +10,7 @@ import { RoleRepository } from './role.repository';
   controllers: [RolesController],
   imports: [
     DatabaseModule,
-    DatabaseModule.forFeatue([Role, User, UserRole]),
+    DatabaseModule.forFeature([Role, User, UserRole]),
     JwtModule,
   ],
 })
