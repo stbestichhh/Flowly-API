@@ -1,1 +1,3 @@
-export class AbstractDto {}
+export abstract class AbstractDto {
+  [key: string]: any;
+}
