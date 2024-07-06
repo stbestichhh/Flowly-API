@@ -2,13 +2,14 @@ import {
   BelongsTo,
   Column,
   DataType,
-  ForeignKey,
+  ForeignKey, HasMany,
   HasOne,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '@app/common/database';
+import { Team } from '@app/common/database/models/flowly/team.model';
 
 interface ProjectCreationAttributes {
   name: string;
@@ -45,4 +46,7 @@ export class Project extends Model<Project, ProjectCreationAttributes> {
 
   @HasOne(() => Team)
   team: Team;
+
+  @HasMany(() => Task)
+  tasks: Task[];
 }
