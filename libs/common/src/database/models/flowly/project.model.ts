@@ -2,7 +2,7 @@ import {
   BelongsTo,
   Column,
   DataType,
-  ForeignKey,
+  ForeignKey, HasOne,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -38,4 +38,7 @@ export class Project extends Model<Project, ProjectCreationAttributes> {
 
   @BelongsTo(() => User)
   manager: User;
+
+  @HasOne(() => Team)
+  team: Team;
 }
