@@ -11,7 +11,7 @@ async function bootstrap() {
     bufferLogs: true,
   });
   const configService = app.get(ConfigService);
-  const logger = new Logger(this);
+  const logger = new Logger(bootstrap.name);
 
   app.useLogger(app.get(PinoLogger));
 

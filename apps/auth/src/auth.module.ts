@@ -16,6 +16,8 @@ import { RateLimitterModule } from '@app/common/rate-limitter';
     RateLimitterModule,
     ConfigModule.forRoot({
       validationSchema: Joi.object({
+        HTTP_PORT: Joi.number().port().required(),
+        HTTP_HOST: Joi.string().hostname().required(),
         SECRET_KEY: Joi.string().required(),
         JWT_EXPIRATION: Joi.string().required(),
       }),
