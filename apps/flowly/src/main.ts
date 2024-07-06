@@ -19,8 +19,7 @@ async function bootstrap() {
     .setTitle('Flowly-api')
     .setDescription('Flowly general functionality microservice.')
     .setVersion('1.0.0')
-    .addTag('Flowly API')
-    .build()
+    .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('/api/flowly/docs', app, document);
