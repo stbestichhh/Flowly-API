@@ -1,7 +1,8 @@
 import {
   BelongsTo,
   Column,
-  DataType, ForeignKey,
+  DataType,
+  ForeignKey,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -27,7 +28,10 @@ export class Task extends Model<Task, TaskCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;
 
-  @ApiProperty({ example: 'This is a super task for SuperProject', description: 'Task description' })
+  @ApiProperty({
+    example: 'This is a super task for SuperProject',
+    description: 'Task description',
+  })
   @Column({ type: DataType.STRING, allowNull: false })
   description: string;
 
