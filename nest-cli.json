@@ -25,6 +25,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
+    },
+    "flowly": {
+      "type": "application",
+      "root": "apps/flowly",
+      "entryFile": "main",
+      "sourceRoot": "apps/flowly/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/flowly/tsconfig.app.json"
+      }
     }
   },
   "monorepo": true,
