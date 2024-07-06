@@ -2,7 +2,8 @@ import {
   BelongsTo,
   Column,
   DataType,
-  ForeignKey, HasOne,
+  ForeignKey,
+  HasOne,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -27,7 +28,10 @@ export class Project extends Model<Project, ProjectCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;
 
-  @ApiProperty({ example: 'SuperProject is very cool!', description: 'Project description' })
+  @ApiProperty({
+    example: 'SuperProject is very cool!',
+    description: 'Project description',
+  })
   @Column({ type: DataType.STRING, allowNull: true })
   description: string;
 
