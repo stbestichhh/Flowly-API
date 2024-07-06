@@ -10,10 +10,11 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '@app/common/database';
 import { Team } from '@app/common/database/models/flowly/team.model';
+import { Task } from '@app/common/database/models/flowly/task.model';
 
 interface ProjectCreationAttributes {
   name: string;
-  description: string;
+  description?: string;
 }
 
 @Table({ tableName: 'projects' })
