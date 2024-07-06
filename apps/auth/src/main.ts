@@ -19,7 +19,7 @@ async function bootstrap() {
     .setTitle('Authorization')
     .setDescription('Flowly authorization microservice API')
     .setVersion('1.0.0')
-    .addTag('Flowly API')
+    .addTag('Flowly Auth API')
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
