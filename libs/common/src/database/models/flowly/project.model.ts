@@ -36,7 +36,7 @@ export class Project extends Model<Project, ProjectCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: true })
   description: string;
 
-  @ApiProperty({ example: 'uuidv4managerid', description: 'Project manager' })
+  @ApiProperty({ example: 'uuidv4managerid', description: 'Project manager id' })
   @ForeignKey(() => User)
   @Column({ type: DataType.STRING })
   managerId: string;

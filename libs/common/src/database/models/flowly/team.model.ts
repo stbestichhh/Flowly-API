@@ -1,16 +1,16 @@
 import {
   BelongsTo,
   Column,
-  DataType,
+  DataType, ForeignKey,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
-import { Project } from '@app/common/database';
+import { Project, User } from '@app/common/database';
 
 interface TeamCreationAttributes {
   name: string;
-  description: string;
+  projectId: string;
 }
 
 @Table({ tableName: 'teams' })
@@ -25,6 +25,11 @@ export class Team extends Model<Team, TeamCreationAttributes> {
   @ApiProperty({ example: 'SuperTeam', description: 'Team name' })
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;
+
+  @ApiProperty({ example: 'uuidv4projectid', description: 'Project id' })
+  @ForeignKey(() => Project)
+  @Column({ type: DataType.STRING })
+  projectId: string;
 
   @BelongsTo(() => Project)
   project: Project;
