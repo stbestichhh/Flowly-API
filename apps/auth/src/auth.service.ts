@@ -1,5 +1,4 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { SigninDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from './users/users.service';
 import { CreateUserDto } from './users/dto';
@@ -18,11 +17,7 @@ export class AuthService {
     return await this.userService.create(dto);
   }
 
-  public async signin(dto: SigninDto) {
-    const user = await this.userService.getOne({ email: dto.email });
-
-    await this.validatePassword(user, dto.password);
-
+  public async signin(user: User) {
     const roles = user.roles.map((role) => role.value);
     const payload: IjwtPayload = {
       sub: user.id,
@@ -32,6 +27,12 @@ export class AuthService {
     };
 
     return { authentication_token: await this.jwtService.signAsync(payload) };
+  }
+
+  public async validateUser(email: string, password: string) {
+    const user = await this.userService.getOne({ email });
+    await this.validatePassword(user, password);
+    return user;
   }
 
   private async validatePassword(user: User, password: string) {

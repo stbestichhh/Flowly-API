@@ -3,8 +3,8 @@ import { AuthService } from './auth.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '@app/common/database';
 import { CreateUserDto } from './users/dto';
-import { SigninDto } from './dto';
 import { LocalGuard } from './guards';
+import { CurrentUser } from '@app/common/decorators';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -30,7 +30,7 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Body is not correct' })
   @UseGuards(LocalGuard)
   @Post('signin')
-  public async signin(@Body() dto: SigninDto) {
-    return await this.authService.signin(dto);
+  public async signin(@CurrentUser() user: User) {
+    return await this.authService.signin(user);
   }
 }
