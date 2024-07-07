@@ -1,9 +1,10 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '@app/common/database';
 import { CreateUserDto } from './users/dto';
 import { SigninDto } from './dto';
+import { LocalGuard } from './guards';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -27,6 +28,7 @@ export class AuthController {
   })
   @ApiResponse({ status: 403, description: 'Credentials are incorrect' })
   @ApiResponse({ status: 400, description: 'Body is not correct' })
+  @UseGuards(LocalGuard)
   @Post('signin')
   public async signin(@Body() dto: SigninDto) {
     return await this.authService.signin(dto);

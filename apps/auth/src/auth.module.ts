@@ -8,9 +8,12 @@ import { RolesModule } from './roles/roles.module';
 import { LoggerModule } from '@app/common/logger';
 import * as Joi from 'joi';
 import { RateLimitterModule } from '@app/common/rate-limitter';
+import { PassportModule } from '@nestjs/passport';
+import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
+    PassportModule,
     UsersModule,
     LoggerModule,
     RateLimitterModule,
@@ -34,6 +37,6 @@ import { RateLimitterModule } from '@app/common/rate-limitter';
     RolesModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, LocalStrategy],
 })
 export class AuthModule {}

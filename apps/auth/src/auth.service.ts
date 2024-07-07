@@ -21,7 +21,7 @@ export class AuthService {
   public async signin(dto: SigninDto) {
     const user = await this.userService.getOne({ email: dto.email });
 
-    await this.validateUser(user, dto.password);
+    await this.validatePassword(user, dto.password);
 
     const roles = user.roles.map((role) => role.value);
     const payload: IjwtPayload = {
@@ -34,7 +34,7 @@ export class AuthService {
     return { authentication_token: await this.jwtService.signAsync(payload) };
   }
 
-  private async validateUser(user: User, password: string) {
+  private async validatePassword(user: User, password: string) {
     const pwMatch = await bcrypt.compare(password, user.password);
 
     if (!pwMatch) {
