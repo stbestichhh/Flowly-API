@@ -1,9 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from './users/users.service';
 import { CreateUserDto } from './users/dto';
 import { IjwtPayload } from '@app/common/interfaces';
-import * as bcrypt from 'bcrypt';
 import { User } from '@app/common/database';
 
 @Injectable()
@@ -27,19 +26,5 @@ export class AuthService {
     };
 
     return { authentication_token: await this.jwtService.signAsync(payload) };
-  }
-
-  public async validateUser(email: string, password: string) {
-    const user = await this.userService.getOne({ email });
-    await this.validatePassword(user, password);
-    return user;
-  }
-
-  private async validatePassword(user: User, password: string) {
-    const pwMatch = await bcrypt.compare(password, user.password);
-
-    if (!pwMatch) {
-      throw new ForbiddenException('Credentials are incorrect');
-    }
   }
 }

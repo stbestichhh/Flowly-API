@@ -17,7 +17,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { AuthGuard, RoleGuard } from '@app/common/guards';
+import { JwtGuard, RoleGuard } from '@app/common/guards';
 import { RolesService } from './roles.service';
 import { WhereOptions } from 'sequelize';
 import { Role } from '@app/common/database';
@@ -28,7 +28,7 @@ import { RolesEnum } from '@app/common/enums';
 @ApiTags('Roles')
 @ApiBearerAuth()
 @Roles(RolesEnum.ADMIN)
-@UseGuards(AuthGuard, RoleGuard)
+@UseGuards(JwtGuard, RoleGuard)
 @Controller('roles')
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
