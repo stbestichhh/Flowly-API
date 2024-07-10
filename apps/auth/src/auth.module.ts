@@ -11,6 +11,7 @@ import { RateLimitterModule } from '@app/common/rate-limitter';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies';
 import { JwtStrategy } from '@app/common/strategies';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { JwtStrategy } from '@app/common/strategies';
       imports: [ConfigModule],
     }),
     RolesModule,
+    HealthModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],

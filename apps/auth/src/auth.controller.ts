@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '@app/common/database';
@@ -10,6 +10,12 @@ import { CurrentUser } from '@app/common/decorators';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  public get() {
+    return 'Hello';
+  }
 
   @ApiOperation({ summary: 'Create new account' })
   @ApiResponse({ status: 201, type: User })
