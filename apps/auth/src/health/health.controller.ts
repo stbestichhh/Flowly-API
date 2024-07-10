@@ -1,5 +1,10 @@
 import { Controller, Get } from '@nestjs/common';
-import { HealthCheck, HealthCheckService, HttpHealthIndicator, SequelizeHealthIndicator } from '@nestjs/terminus';
+import {
+  HealthCheck,
+  HealthCheckService,
+  HttpHealthIndicator,
+  SequelizeHealthIndicator,
+} from '@nestjs/terminus';
 import { ConfigService } from '@nestjs/config';
 
 @Controller('health')
