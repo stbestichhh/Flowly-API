@@ -17,13 +17,16 @@ async function bootstrap() {
     whitelist: true,
   }));
 
+  const PORT = configService.get<number>('NOTIFICATIONS_PORT');
+  const HOST = configService.get<string>('NOTIFICATIONS_HOST');
+
   app.useLogger(app.get<PinoLogger>(PinoLogger));
   app.enableCors();
   app.connectMicroservice({
     transport: Transport.TCP,
     options: {
-      host: '0.0.0.0',
-      port: configService.get<number>('NOTIFICATIONS_PORT'),
+      host: HOST,
+      port: PORT,
     },
   });
 
