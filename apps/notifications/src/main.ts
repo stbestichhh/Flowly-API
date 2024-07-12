@@ -32,6 +32,8 @@ async function bootstrap() {
     },
   });
 
-  await app.startAllMicroservices();
+  await app.startAllMicroservices().then(async () => {
+    logger.log(`Microservice is running on http://${HOST}:${PORT}`);
+  });
 }
 bootstrap();
