@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
+import * as path from 'path';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
   imports: [
@@ -22,6 +24,16 @@ import * as Joi from 'joi';
           auth: {
             user: configService.get<string>('EMAIL_USER'),
             pass: configService.get<string>('EMAIL_PASSWORD'),
+          },
+        },
+        defaults: {
+          from: '"Flowly" <noreply@flowly.com>',
+        },
+        template: {
+          dir: path.resolve('templates'),
+          adapter: new HandlebarsAdapter(),
+          options: {
+            strict: true,
           },
         },
       }),
