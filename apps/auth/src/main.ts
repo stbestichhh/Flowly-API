@@ -9,11 +9,10 @@ import helmet from 'helmet';
 async function bootstrap() {
   const app = await NestFactory.create(AuthModule, {
     bufferLogs: true,
+    cors: true,
   });
   const configService = app.get(ConfigService);
   const logger = new Logger(bootstrap.name);
-
-  app.useLogger(app.get(PinoLogger));
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Authorization')
@@ -30,6 +29,7 @@ async function bootstrap() {
     }),
   );
 
+  app.useLogger(app.get(PinoLogger));
   app.use(helmet());
   app.enableCors();
 
