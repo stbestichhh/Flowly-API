@@ -13,9 +13,11 @@ async function bootstrap() {
   const configService = app.get<ConfigService>(ConfigService);
   const logger = new Logger(bootstrap.name);
 
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    }),
+  );
 
   const PORT = configService.get<number>('NOTIFICATIONS_PORT');
   const HOST = configService.get<string>('NOTIFICATIONS_HOST');
