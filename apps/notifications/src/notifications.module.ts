@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as process from 'process';
 import * as Joi from 'joi';
 import { LoggerModule } from '@app/common/logger';
-import { EmailModule } from '@app/common/email/email.module';
+import { EmailModule } from '@app/common/email';
 
 @Module({
   imports: [
