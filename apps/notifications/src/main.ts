@@ -23,7 +23,7 @@ async function bootstrap() {
     transport: Transport.TCP,
     options: {
       host: '0.0.0.0',
-      port: configService.get<number>('HTTP_PORT'),
+      port: configService.get<number>('NOTIFICATIONS_PORT'),
     },
   });
 

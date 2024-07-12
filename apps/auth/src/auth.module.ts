@@ -12,6 +12,8 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies';
 import { JwtStrategy } from '@app/common/strategies';
 import { HealthModule } from './health/health.module';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import * as process from 'process';
 
 @Module({
   imports: [
@@ -25,7 +27,10 @@ import { HealthModule } from './health/health.module';
         HTTP_HOST: Joi.string().hostname().required(),
         SECRET_KEY: Joi.string().required(),
         JWT_EXPIRATION: Joi.string().required(),
+        NOTIFICATIONS_HOST: Joi.string().hostname().required(),
+        NOTIFICATIONS_PORT: Joi.number().port().required(),
       }),
+      envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
@@ -38,6 +43,20 @@ import { HealthModule } from './health/health.module';
     }),
     RolesModule,
     HealthModule,
+    ClientsModule.registerAsync([
+      {
+        name: 'NOTIFICATIONS_SERVICE',
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>('NOTIFICATIONS_HOST'),
+            port: configService.get<number>('NOTIFICATIONS_PORT'),
+          },
+        }),
+        inject: [ConfigService],
+        imports: [ConfigModule],
+      },
+    ]),
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],
