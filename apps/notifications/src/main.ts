@@ -27,8 +27,6 @@ async function bootstrap() {
     },
   });
 
-  await app.startAllMicroservices().then(async () => {
-    logger.log(`Notifications microservice is running`);
-  });
+  await app.startAllMicroservices();
 }
 bootstrap();
