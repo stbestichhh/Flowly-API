@@ -1,16 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProjectDto } from './dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
+import { ProjectRepository } from './project.repository';
 
 @Injectable()
 export class ProjectService {
-  public async getAll() {}
+  constructor(private readonly projectRepository: ProjectRepository) {}
 
-  public async getById(id: string) {}
+  public async getAll() {
+    return await this.projectRepository.findAll();
+  }
 
-  public async create(dto: CreateProjectDto, managerId: string) {}
+  public async getById(id: string) {
+    return await this.projectRepository.findByPk(id);
+  }
 
-  public async update(dto: UpdateProjectDto, projectId: string) {}
+  public async create(dto: CreateProjectDto, managerId: string) {
+    return await this.projectRepository.create({ ...dto, managerId });
+  }
 
-  public async delete(id: string) {}
+  public async update(dto: UpdateProjectDto, id: string) {
+    return await this.projectRepository.update(id, dto);
+  }
+
+  public async delete(id: string) {
+    return await this.projectRepository.delete(id);
+  }
 }
