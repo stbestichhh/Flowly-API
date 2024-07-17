@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CurrentUser, Roles } from '@app/common/decorators';
 import { RolesEnum } from '@app/common/enums';
@@ -32,7 +41,10 @@ export class ProjectController {
   }
 
   @Post()
-  public async create(@Body() dto: CreateProjectDto, @CurrentUser('sub') managerId: string) {
+  public async create(
+    @Body() dto: CreateProjectDto,
+    @CurrentUser('sub') managerId: string,
+  ) {
     return await this.projectService.create(dto, managerId);
   }
 
