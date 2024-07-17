@@ -10,7 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(FlowlyModule, {
     bufferLogs: true,
   });
-  const configService = app.get(ConfigService);
+  const configService = app.get<ConfigService>(ConfigService);
   const logger = new Logger(bootstrap.name);
 
   app.useLogger(app.get(PinoLogger));
@@ -33,8 +33,8 @@ async function bootstrap() {
   app.use(helmet());
   app.enableCors();
 
-  const PORT = configService.get('HTTP_PORT');
-  const HOST = configService.get('HTTP_HOST');
+  const PORT = configService.get<number>('HTTP_PORT');
+  const HOST = configService.get<string>('HTTP_HOST');
 
   await app.listen(PORT, HOST, async () => {
     logger.log(`Service is running on ${await app.getUrl()}`);
