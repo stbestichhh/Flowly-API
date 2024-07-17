@@ -15,6 +15,7 @@ import { Task } from '@app/common/database/models/flowly/task.model';
 
 interface ProjectCreationAttributes {
   name: string;
+  managerId: string;
   description?: string;
 }
 
@@ -43,7 +44,7 @@ export class Project extends Model<Project, ProjectCreationAttributes> {
     description: 'Project manager id',
   })
   @ForeignKey(() => User)
-  @Column({ type: DataType.STRING })
+  @Column({ type: DataType.STRING, allowNull: false })
   managerId: string;
 
   @BelongsTo(() => User)
