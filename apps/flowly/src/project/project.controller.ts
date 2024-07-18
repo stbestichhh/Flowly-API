@@ -13,7 +13,6 @@ import {
 import {
   ApiBearerAuth,
   ApiOperation,
-  ApiParam,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -23,7 +22,7 @@ import { JwtGuard, RoleGuard } from '@app/common/guards';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
-import { Project, User } from '@app/common/database';
+import { Project } from '@app/common/database';
 
 @ApiTags('Projects')
 @Roles(RolesEnum.PROJECT_MANAGER)
