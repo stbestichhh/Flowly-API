@@ -11,7 +11,10 @@ export class UpdateProjectDto extends PartialType(CreateProjectDto) {
   @IsOptional()
   readonly name?: string;
 
-  @ApiProperty({ example: 'It is my best project', description: 'Project description' })
+  @ApiProperty({
+    example: 'It is my best project',
+    description: 'Project description',
+  })
   @IsOptional()
   @IsNotEmpty()
   @IsString({ message: 'Has to be string' })

@@ -2,13 +2,21 @@ import {
   Body,
   Controller,
   Delete,
-  Get, HttpCode, HttpStatus,
+  Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CurrentUser, Roles } from '@app/common/decorators';
 import { RolesEnum } from '@app/common/enums';
 import { JwtGuard, RoleGuard } from '@app/common/guards';
@@ -27,7 +35,10 @@ export class ProjectController {
 
   @ApiOperation({ summary: 'Get all projects from database' })
   @ApiResponse({ status: 200, type: [Project] })
-  @ApiResponse({ status: 404, description: 'Entities of type: Project not found' })
+  @ApiResponse({
+    status: 404,
+    description: 'Entities of type: Project not found',
+  })
   @Roles(RolesEnum.ADMIN)
   @Get('all')
   public async getAll() {
@@ -36,7 +47,10 @@ export class ProjectController {
 
   @ApiOperation({ summary: 'Get all projects of current user' })
   @ApiResponse({ status: 200, type: Project })
-  @ApiResponse({ status: 404, description: 'Entities of type: Project not found' })
+  @ApiResponse({
+    status: 404,
+    description: 'Entities of type: Project not found',
+  })
   @Get()
   public async getAllByUser() {
     return await this.projectService.getAll();

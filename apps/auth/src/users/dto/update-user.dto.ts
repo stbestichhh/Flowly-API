@@ -2,7 +2,8 @@ import { CreateUserDto } from './create-user.dto';
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsNotEmpty, IsOptional,
+  IsNotEmpty,
+  IsOptional,
   IsString,
   IsStrongPassword,
   Length,
