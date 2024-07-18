@@ -83,7 +83,7 @@ export class UsersController {
     return await this.userService.update(id, dto);
   }
 
-  @ApiOperation({ summary: 'Get user by his uuid' })
+  @ApiOperation({ summary: 'Delete user by his uuid' })
   @ApiResponse({ status: 204, description: 'User deleted' })
   @ApiResponse({ status: 404, description: 'User not found' })
   @HttpCode(HttpStatus.NO_CONTENT)

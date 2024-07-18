@@ -22,7 +22,7 @@ export class AuthController {
   @Get()
   @HttpCode(HttpStatus.OK)
   public get() {
-    return 'Hello';
+    return 'Ok';
   }
 
   @ApiOperation({ summary: 'Create new account' })
