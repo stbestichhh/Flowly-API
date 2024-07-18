@@ -4,6 +4,9 @@ import * as Joi from 'joi';
 import * as process from 'process';
 import { LoggerModule } from '@app/common/logger';
 import { ProjectModule } from './project/project.module';
+import { RateLimitterModule } from '@app/common/rate-limitter';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -17,6 +20,8 @@ import { ProjectModule } from './project/project.module';
       }),
     }),
     ProjectModule,
+    RateLimitterModule,
   ],
+  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class FlowlyModule {}

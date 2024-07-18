@@ -20,8 +20,7 @@ import { CurrentUser, Roles } from '@app/common/decorators';
 import { RolesEnum } from '@app/common/enums';
 import { JwtGuard, RoleGuard } from '@app/common/guards';
 import { ProjectService } from './project.service';
-import { CreateProjectDto } from './dto';
-import { UpdateProjectDto } from './dto/update-project.dto';
+import { CreateProjectDto, UpdateProjectDto } from './dto';
 import { Project } from '@app/common/database';
 
 @ApiTags('Projects')
