@@ -14,8 +14,8 @@ import * as Joi from 'joi';
     ThrottlerModule.forRootAsync({
       useFactory: (configService: ConfigService) => [
         {
-          ttl: configService.get('THROTTLE_TTL'),
-          limit: configService.get('THROTTLE_LIMIT'),
+          ttl: configService.get<number>('THROTTLE_TTL'),
+          limit: configService.get<number>('THROTTLE_LIMIT'),
         },
       ],
       imports: [ConfigModule],

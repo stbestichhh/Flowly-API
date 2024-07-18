@@ -13,8 +13,10 @@ import { User } from '@app/common/database';
 import { CreateUserDto } from './users/dto';
 import { LocalGuard } from './guards';
 import { CurrentUser } from '@app/common/decorators';
+import { Throttle } from '@nestjs/throttler';
 
 @ApiTags('Authentication')
+@Throttle({ default: { limit: 1, ttl: 60000 } })
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
