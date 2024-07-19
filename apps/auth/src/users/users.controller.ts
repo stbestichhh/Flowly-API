@@ -24,8 +24,9 @@ import { User } from '@app/common/database';
 import { WhereOptions } from 'sequelize';
 import { JwtGuard, RoleGuard } from '@app/common/guards';
 import { AddRoleDto } from './dto/add-role.dto';
-import { Roles } from '@app/common/decorators';
+import { Public, Roles } from '@app/common/decorators';
 import { RolesEnum } from '@app/common/enums';
+import { EventPattern, Payload } from '@nestjs/microservices';
 
 @ApiTags('Users')
 @Roles(RolesEnum.ADMIN)
@@ -107,6 +108,12 @@ export class UsersController {
   @ApiResponse({ status: 400, description: 'Body is not correct' })
   @Post('/role')
   public async addRole(@Body() dto: AddRoleDto) {
+    return await this.userService.addRole(dto);
+  }
+
+  @Public()
+  @EventPattern('give_role')
+  public async giveRoleEvent(@Payload() dto: AddRoleDto) {
     return await this.userService.addRole(dto);
   }
 }

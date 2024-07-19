@@ -25,7 +25,7 @@ export class AuthService {
       message: 'Thank you for registration!',
     };
 
-    this.notificationsService.emit('notify_email', emailData);
+    await this.notificationsService.emit('notify_email', emailData);
 
     return user;
   }
