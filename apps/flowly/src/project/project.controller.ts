@@ -59,7 +59,10 @@ export class ProjectController {
   @ApiResponse({ status: 404, description: 'Entities not found by id' })
   @Roles(RolesEnum.PROJECT_MANAGER)
   @Get(':id')
-  public async getById(@Param('id') id: string, @CurrentUser('sub') managerId: string) {
+  public async getById(
+    @Param('id') id: string,
+    @CurrentUser('sub') managerId: string,
+  ) {
     return await this.projectService.getById(id, managerId);
   }
 
@@ -83,7 +86,11 @@ export class ProjectController {
   @ApiResponse({ status: 404, description: 'Entities not found by id' })
   @Roles(RolesEnum.PROJECT_MANAGER)
   @Patch(':id')
-  public async update(@Body() dto: UpdateProjectDto, @Param('id') id: string, @CurrentUser('sub') managerId: string) {
+  public async update(
+    @Body() dto: UpdateProjectDto,
+    @Param('id') id: string,
+    @CurrentUser('sub') managerId: string,
+  ) {
     return await this.projectService.update(dto, id, managerId);
   }
 
@@ -93,7 +100,10 @@ export class ProjectController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(RolesEnum.PROJECT_MANAGER)
   @Delete(':id')
-  public async delete(@Param('id') id: string, @CurrentUser('sub') managerId: string) {
+  public async delete(
+    @Param('id') id: string,
+    @CurrentUser('sub') managerId: string,
+  ) {
     return await this.projectService.delete(id, managerId);
   }
 }

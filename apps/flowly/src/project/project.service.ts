@@ -6,7 +6,8 @@ import { RolesEnum } from '@app/common/enums';
 
 @Injectable()
 export class ProjectService {
-  constructor(private readonly projectRepository: ProjectRepository,
+  constructor(
+    private readonly projectRepository: ProjectRepository,
     @Inject('AUTH_SERVICE') private readonly authService: ClientProxy,
   ) {}
 
@@ -21,7 +22,7 @@ export class ProjectService {
   public async getById(id: string, managerId: string) {
     const project = await this.projectRepository.findByPk(id);
 
-    if(project.managerId !== managerId) {
+    if (project.managerId !== managerId) {
       throw new NotFoundException(`Entity not found by id: ${id}`);
     }
 
@@ -31,7 +32,10 @@ export class ProjectService {
   public async create(dto: CreateProjectDto, managerId: string) {
     const project = await this.projectRepository.create({ ...dto, managerId });
 
-    await this.authService.emit('give_role', { userId: managerId, role: RolesEnum.PROJECT_MANAGER });
+    await this.authService.emit('give_role', {
+      userId: managerId,
+      role: RolesEnum.PROJECT_MANAGER,
+    });
 
     return project;
   }
