@@ -1,5 +1,10 @@
 import { AuthGuard } from '@nestjs/passport';
-import { ExecutionContext, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ExecutionContext,
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { PUBLIC_KEY } from '@app/common/decorators';
 import e from 'express';
@@ -9,7 +14,11 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JwtGuard extends AuthGuard('jwt') {
-  constructor(private readonly reflector: Reflector, private readonly jwtService: JwtService, private readonly configService: ConfigService) {
+  constructor(
+    private readonly reflector: Reflector,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {
     super();
   }
 
@@ -19,18 +28,22 @@ export class JwtGuard extends AuthGuard('jwt') {
       context.getClass(),
     ]);
 
+    const request = context.switchToHttp().getRequest();
+    const token = await this.extractTokenFromHeader(request);
+
+    const payload: IjwtPayload = await this.jwtService
+      .verifyAsync(token, {
+        secret: this.configService.get<string>('SECRET_KEY'),
+      })
+      .catch(() => {
+        throw new UnauthorizedException();
+      });
+
     if (isPublic) {
       return true;
     }
 
-    const request = context.switchToHttp().getRequest();
-    const token = await this.extractTokenFromHeader(request);
-
-    const payload: IjwtPayload = await this.jwtService.verifyAsync(token, {
-      secret: this.configService.get<string>('SECRET_KEY'),
-    }).catch(() => { throw new UnauthorizedException() });
-
-    if(payload.banStatus) {
+    if (payload.banStatus) {
       throw new ForbiddenException('Your account has been blocked');
     }
 
