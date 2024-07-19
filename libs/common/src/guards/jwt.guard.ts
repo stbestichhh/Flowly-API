@@ -11,6 +11,7 @@ import e from 'express';
 import { IjwtPayload } from '@app/common/interfaces';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class JwtGuard extends AuthGuard('jwt') {
@@ -22,14 +23,22 @@ export class JwtGuard extends AuthGuard('jwt') {
     super();
   }
 
-  async canActivate(context: ExecutionContext) {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
     ]);
 
+    if (isPublic) {
+      return true;
+    }
+
     const request = context.switchToHttp().getRequest();
     const token = await this.extractTokenFromHeader(request);
+
+    if(!token) {
+      throw new UnauthorizedException();
+    }
 
     const payload: IjwtPayload = await this.jwtService
       .verifyAsync(token, {
@@ -39,15 +48,11 @@ export class JwtGuard extends AuthGuard('jwt') {
         throw new UnauthorizedException();
       });
 
-    if (isPublic) {
-      return true;
-    }
-
     if (payload.banStatus) {
       throw new ForbiddenException('Your account has been blocked');
     }
 
-    return super.canActivate(context);
+    return super.canActivate(context) as boolean;
   }
 
   private async extractTokenFromHeader(request: e.Request) {
