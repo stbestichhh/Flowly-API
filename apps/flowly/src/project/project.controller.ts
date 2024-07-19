@@ -24,7 +24,6 @@ import { CreateProjectDto, UpdateProjectDto } from './dto';
 import { Project } from '@app/common/database';
 
 @ApiTags('Projects')
-@Roles(RolesEnum.PROJECT_MANAGER)
 @UseGuards(JwtGuard, RoleGuard)
 @ApiBearerAuth()
 @Controller('project')
@@ -49,17 +48,19 @@ export class ProjectController {
     status: 404,
     description: 'Entities of type: Project not found',
   })
+  @Roles(RolesEnum.USER)
   @Get()
-  public async getAllByUser() {
-    return await this.projectService.getAll();
+  public async getAllByUser(@CurrentUser('sub') managerId: string) {
+    return await this.projectService.getAllbyUser(managerId);
   }
 
   @ApiOperation({ summary: 'Get project by its uuid' })
   @ApiResponse({ status: 200, type: Project })
   @ApiResponse({ status: 404, description: 'Entities not found by id' })
+  @Roles(RolesEnum.PROJECT_MANAGER)
   @Get(':id')
-  public async getById(@Param('id') id: string) {
-    return await this.projectService.getById(id);
+  public async getById(@Param('id') id: string, @CurrentUser('sub') managerId: string) {
+    return await this.projectService.getById(id, managerId);
   }
 
   @ApiOperation({ summary: 'Create new project' })
@@ -67,6 +68,7 @@ export class ProjectController {
   @ApiResponse({ status: 403, description: 'Project already exists' })
   @ApiResponse({ status: 400, description: 'Body is not correct' })
   @HttpCode(HttpStatus.CREATED)
+  @Roles(RolesEnum.USER)
   @Post()
   public async create(
     @Body() dto: CreateProjectDto,
@@ -79,17 +81,19 @@ export class ProjectController {
   @ApiResponse({ status: 201, type: Project })
   @ApiResponse({ status: 400, description: 'Body is not correct' })
   @ApiResponse({ status: 404, description: 'Entities not found by id' })
+  @Roles(RolesEnum.PROJECT_MANAGER)
   @Patch(':id')
-  public async update(@Body() dto: UpdateProjectDto, @Param('id') id: string) {
-    return await this.projectService.update(dto, id);
+  public async update(@Body() dto: UpdateProjectDto, @Param('id') id: string, @CurrentUser('sub') managerId: string) {
+    return await this.projectService.update(dto, id, managerId);
   }
 
   @ApiOperation({ summary: 'Delete project by his uuid' })
   @ApiResponse({ status: 204, description: 'Project deleted' })
   @ApiResponse({ status: 404, description: 'Project not found by id' })
   @HttpCode(HttpStatus.NO_CONTENT)
+  @Roles(RolesEnum.PROJECT_MANAGER)
   @Delete(':id')
-  public async delete(@Param('id') id: string) {
-    return await this.projectService.delete(id);
+  public async delete(@Param('id') id: string, @CurrentUser('sub') managerId: string) {
+    return await this.projectService.delete(id, managerId);
   }
 }

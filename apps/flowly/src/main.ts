@@ -32,6 +32,7 @@ async function bootstrap() {
 
   app.use(helmet());
   app.enableCors();
+  app.use(helmet());
 
   const PORT = configService.get<number>('HTTP_PORT');
   const HOST = configService.get<string>('HTTP_HOST');
