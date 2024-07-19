@@ -11,7 +11,6 @@ import e from 'express';
 import { IjwtPayload } from '@app/common/interfaces';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class JwtGuard extends AuthGuard('jwt') {
@@ -36,7 +35,7 @@ export class JwtGuard extends AuthGuard('jwt') {
     const request = context.switchToHttp().getRequest();
     const token = await this.extractTokenFromHeader(request);
 
-    if(!token) {
+    if (!token) {
       throw new UnauthorizedException();
     }
 
