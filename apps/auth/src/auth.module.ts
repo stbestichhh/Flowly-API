@@ -25,12 +25,14 @@ import { ThrottlerGuard } from '@nestjs/throttler';
     RateLimitterModule,
     ConfigModule.forRoot({
       validationSchema: Joi.object({
-        HTTP_PORT: Joi.number().port().required(),
-        HTTP_HOST: Joi.string().hostname().required(),
+        AUTH_PORT: Joi.number().port().required(),
+        AUTH_HOST: Joi.string().hostname().required(),
         SECRET_KEY: Joi.string().required(),
         JWT_EXPIRATION: Joi.string().required(),
         NOTIFICATIONS_HOST: Joi.string().hostname().required(),
         NOTIFICATIONS_PORT: Joi.number().port().required(),
+        AUTH_EVENT_HOST: Joi.string().hostname().required(),
+        AUTH_EVENT_PORT: Joi.number().port().required(),
       }),
       envFilePath: `.${process.env.NODE_ENV}.env`,
     }),

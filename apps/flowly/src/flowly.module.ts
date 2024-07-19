@@ -19,6 +19,8 @@ import { TeamModule } from './team/team.module';
       validationSchema: Joi.object({
         HTTP_PORT: Joi.number().port().required(),
         HTTP_HOST: Joi.string().hostname().required(),
+        AUTH_EVENT_HOST: Joi.string().hostname().required(),
+        AUTH_EVENT_PORT: Joi.number().port().required(),
       }),
     }),
     ProjectModule,
