@@ -8,9 +8,6 @@ import { ProjectModule } from '../project/project.module';
 @Module({
   providers: [TeamService, TeamRepository],
   controllers: [TeamController],
-  imports: [
-    ProjectModule,
-    DatabaseModule.forFeature([Team])
-  ]
+  imports: [ProjectModule, DatabaseModule.forFeature([Team])],
 })
 export class TeamModule {}

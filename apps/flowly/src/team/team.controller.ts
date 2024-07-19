@@ -1,5 +1,21 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtGuard, RoleGuard } from '@app/common/guards';
 import { TeamService } from './team.service';
 import { CurrentUser, Roles } from '@app/common/decorators';
@@ -28,18 +44,27 @@ export class TeamController {
   @ApiResponse({ status: 404, description: 'Entity not found by id' })
   @Roles(RolesEnum.PROJECT_MANAGER)
   @Get(':id')
-  public async getById(@Param('id') id: string, @CurrentUser('sub') managerId: string) {
+  public async getById(
+    @Param('id') id: string,
+    @CurrentUser('sub') managerId: string,
+  ) {
     return await this.teamService.getById(id, managerId);
   }
 
   @ApiOperation({ summary: 'Create team' })
   @ApiResponse({ status: 201, type: Team })
-  @ApiResponse({ status: 403, description: 'Team on this project already exists' })
+  @ApiResponse({
+    status: 403,
+    description: 'Team on this project already exists',
+  })
   @ApiResponse({ status: 400, description: 'Body is not correct' })
   @HttpCode(HttpStatus.CREATED)
   @Roles(RolesEnum.PROJECT_MANAGER)
   @Post()
-  public async create(@Body() dto: CreateTeamDto, @CurrentUser('sub') managerId: string) {
+  public async create(
+    @Body() dto: CreateTeamDto,
+    @CurrentUser('sub') managerId: string,
+  ) {
     return await this.teamService.create(dto, managerId);
   }
 
@@ -49,7 +74,11 @@ export class TeamController {
   @ApiResponse({ status: 400, description: 'Body is not correct' })
   @Roles(RolesEnum.PROJECT_MANAGER)
   @Patch(':id')
-  public async update(@Param('id') id: string, @Body() dto: UpdateTeamDto, @CurrentUser('sub') managerId: string) {
+  public async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateTeamDto,
+    @CurrentUser('sub') managerId: string,
+  ) {
     return await this.teamService.update(id, dto, managerId);
   }
 
@@ -59,7 +88,10 @@ export class TeamController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(RolesEnum.PROJECT_MANAGER)
   @Delete(':id')
-  public async delete(@Param('id') id: string, @CurrentUser('sub') managerId: string) {
+  public async delete(
+    @Param('id') id: string,
+    @CurrentUser('sub') managerId: string,
+  ) {
     return await this.teamService.delete(id, managerId);
   }
 }

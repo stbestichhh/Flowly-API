@@ -9,7 +9,10 @@ export class CreateTeamDto extends AbstractDto {
   @Length(4)
   readonly name: string;
 
-  @ApiProperty({ example: 'projectuuid', description: 'Project uuid to attach created team' })
+  @ApiProperty({
+    example: 'projectuuid',
+    description: 'Project uuid to attach created team',
+  })
   @IsNotEmpty()
   @IsString({ message: 'Has to be string' })
   readonly projectId: string;
