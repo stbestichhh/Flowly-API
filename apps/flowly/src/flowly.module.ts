@@ -8,6 +8,7 @@ import { RateLimitterModule } from '@app/common/rate-limitter';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { DatabaseModule } from '@app/common/database';
+import { TeamModule } from './team/team.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { DatabaseModule } from '@app/common/database';
     ProjectModule,
     RateLimitterModule,
     DatabaseModule,
+    TeamModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
