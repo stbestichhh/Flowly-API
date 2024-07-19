@@ -27,5 +27,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   ],
   controllers: [ProjectController],
   providers: [ProjectService, JwtStrategy, ProjectRepository],
+  exports: [ProjectService],
 })
 export class ProjectModule {}
