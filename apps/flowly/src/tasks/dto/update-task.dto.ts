@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateTaskDto } from './create-task.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
 
 export class UpdateTaskDto extends PartialType(CreateTaskDto) {
   @ApiProperty({ example: 'My task', description: 'Task name' })
@@ -15,4 +15,10 @@ export class UpdateTaskDto extends PartialType(CreateTaskDto) {
   @IsString({ message: 'Has to be string' })
   @IsOptional()
   readonly description?: string;
+
+  @ApiProperty({ example: 'treu', description: 'Is task completed or not' })
+  @IsBoolean()
+  @IsOptional()
+  @IsNotEmpty()
+  readonly completed?: boolean;
 }

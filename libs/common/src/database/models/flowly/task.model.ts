@@ -32,8 +32,12 @@ export class Task extends Model<Task, TaskCreationAttributes> {
     example: 'This is a super task for SuperProject',
     description: 'Task description',
   })
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: true })
   description: string;
+
+  @ApiProperty({ example: 'true', description: 'Task status' })
+  @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false })
+  status: boolean;
 
   @ApiProperty({ example: 'uuidv4projectid', description: 'Project id' })
   @ForeignKey(() => Project)
