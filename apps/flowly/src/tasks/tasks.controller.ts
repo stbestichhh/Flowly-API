@@ -5,7 +5,7 @@ import { TasksService } from './tasks.service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
 import { Task } from '@app/common/database';
 import { RolesEnum } from '@app/common/enums';
-import { Roles } from '@app/common/decorators';
+import { CurrentUser, Roles } from '@app/common/decorators';
 
 @ApiTags('Tasks')
 @ApiBearerAuth()
@@ -29,8 +29,8 @@ export class TasksController {
   @HttpCode(HttpStatus.CREATED)
   @Roles(RolesEnum.TEAMLEAD)
   @Post()
-  public async create(@Body() dto: CreateTaskDto) {
-    return await this.taskService.create(dto);
+  public async create(@Body() dto: CreateTaskDto, @CurrentUser('sub') teamLeadId: string) {
+    return await this.taskService.create(dto, teamLeadId);
   }
 
   @ApiOperation({ description: 'Update task' })
@@ -39,8 +39,8 @@ export class TasksController {
   @ApiResponse({ status: 404, description: 'Entity not found by id' })
   @Roles(RolesEnum.TEAMLEAD)
   @Patch(':id')
-  public async update(@Param('id') id: string, @Body() dto: UpdateTaskDto) {
-    return await this.taskService.update(id, dto);
+  public async update(@Param('id') id: string, @Body() dto: UpdateTaskDto, @CurrentUser('sub') teamLeadId: string) {
+    return await this.taskService.update(id, dto, teamLeadId);
   }
 
   @ApiOperation({ description: 'Mark task as completed' })
@@ -58,7 +58,7 @@ export class TasksController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(RolesEnum.TEAMLEAD)
   @Delete(':id')
-  public async delete(@Param('id') id: string) {
-    return await this.taskService.delete(id);
+  public async delete(@Param('id') id: string, @CurrentUser('sub') teamLeadId: string) {
+    return await this.taskService.delete(id, teamLeadId);
   }
 }
