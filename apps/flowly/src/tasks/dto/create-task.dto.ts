@@ -1,5 +1,11 @@
 import { AbstractDto } from '@app/common/dto';
-import { IsNotEmpty, IsOptional, IsString, IsUUID, Length } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+  Length,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTaskDto extends AbstractDto {
@@ -14,7 +20,10 @@ export class CreateTaskDto extends AbstractDto {
   @IsOptional()
   readonly description?: string;
 
-  @ApiProperty({ example: 'projectuuid', description: 'Project id this task relates to' })
+  @ApiProperty({
+    example: 'projectuuid',
+    description: 'Project id this task relates to',
+  })
   @IsString({ message: 'Has to be a string' })
   @IsUUID()
   @IsNotEmpty()

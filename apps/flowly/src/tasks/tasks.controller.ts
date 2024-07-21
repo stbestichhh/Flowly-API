@@ -1,5 +1,21 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtGuard, RoleGuard } from '@app/common/guards';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
@@ -29,7 +45,10 @@ export class TasksController {
   @HttpCode(HttpStatus.CREATED)
   @Roles(RolesEnum.TEAMLEAD)
   @Post()
-  public async create(@Body() dto: CreateTaskDto, @CurrentUser('sub') teamLeadId: string) {
+  public async create(
+    @Body() dto: CreateTaskDto,
+    @CurrentUser('sub') teamLeadId: string,
+  ) {
     return await this.taskService.create(dto, teamLeadId);
   }
 
@@ -39,7 +58,11 @@ export class TasksController {
   @ApiResponse({ status: 404, description: 'Entity not found by id' })
   @Roles(RolesEnum.TEAMLEAD)
   @Patch(':id')
-  public async update(@Param('id') id: string, @Body() dto: UpdateTaskDto, @CurrentUser('sub') teamLeadId: string) {
+  public async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateTaskDto,
+    @CurrentUser('sub') teamLeadId: string,
+  ) {
     return await this.taskService.update(id, dto, teamLeadId);
   }
 
@@ -58,7 +81,10 @@ export class TasksController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(RolesEnum.TEAMLEAD)
   @Delete(':id')
-  public async delete(@Param('id') id: string, @CurrentUser('sub') teamLeadId: string) {
+  public async delete(
+    @Param('id') id: string,
+    @CurrentUser('sub') teamLeadId: string,
+  ) {
     return await this.taskService.delete(id, teamLeadId);
   }
 }

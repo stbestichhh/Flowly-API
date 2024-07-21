@@ -5,7 +5,10 @@ import { ProjectRepository } from '../project/project.repository';
 
 @Injectable()
 export class TasksService {
-  constructor(private readonly taskRepository: TaskRepository, private readonly projectRepository: ProjectRepository) {}
+  constructor(
+    private readonly taskRepository: TaskRepository,
+    private readonly projectRepository: ProjectRepository,
+  ) {}
 
   public async getById(id: string) {
     //!TODO update logic for team lead and collaborators

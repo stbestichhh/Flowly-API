@@ -10,7 +10,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 @Module({
   providers: [TeamService, TeamRepository],
   controllers: [TeamController],
-  imports: [ProjectModule, DatabaseModule.forFeature([Team]),
+  imports: [
+    ProjectModule,
+    DatabaseModule.forFeature([Team]),
     ClientsModule.registerAsync([
       {
         name: 'AUTH_SERVICE',
