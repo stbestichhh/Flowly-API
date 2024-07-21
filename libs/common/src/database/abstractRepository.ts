@@ -8,12 +8,7 @@ import {
 } from '@nestjs/common';
 import { AbstractDto } from '@app/common/dto';
 import { CreationAttributes } from 'sequelize/types/model';
-import {
-  SetOptions,
-  UpdateOptions,
-  ValidationError,
-  WhereOptions,
-} from 'sequelize';
+import { ValidationError, WhereOptions } from 'sequelize';
 
 export abstract class AbstractRepository<TModel extends Model> {
   private readonly logger = new Logger(AbstractRepository.name);
