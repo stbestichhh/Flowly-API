@@ -7,7 +7,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
-import { Project } from '@app/common/database';
+import { Project, User } from '@app/common/database';
 
 interface TeamCreationAttributes {
   name: string;
@@ -26,6 +26,11 @@ export class Team extends Model<Team, TeamCreationAttributes> {
   @ApiProperty({ example: 'SuperTeam', description: 'Team name' })
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;
+
+  @ApiProperty({ example: 'uuidv4userid', description: 'User id' })
+  @ForeignKey(() => User)
+  @Column({ type: DataType.STRING })
+  teamLeaderId: string;
 
   @ApiProperty({ example: 'uuidv4projectid', description: 'Project id' })
   @ForeignKey(() => Project)

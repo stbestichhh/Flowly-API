@@ -46,7 +46,7 @@ export class TasksController {
   @ApiOperation({ description: 'Mark task as completed' })
   @ApiResponse({ status: 200, description: 'Task marked as completed' })
   @ApiResponse({ status: 404, description: 'Entity not found by id' })
-  @Roles(RolesEnum.COLLABORATOR)
+  @Roles(RolesEnum.COLLABORATOR, RolesEnum.TEAMLEAD)
   @Patch(':id/complete')
   public async completeTask(@Param(':id') id: string) {
     return await this.taskService.completeTask(id);
