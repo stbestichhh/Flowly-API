@@ -2,7 +2,6 @@ import {
   ForbiddenException,
   Inject,
   Injectable,
-  NotFoundException,
 } from '@nestjs/common';
 import { CollaboratorRepository } from './collaborator.repository';
 import { TeamRepository } from '../team/team.repository';
