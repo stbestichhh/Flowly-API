@@ -10,6 +10,7 @@ import { ThrottlerGuard } from '@nestjs/throttler';
 import { DatabaseModule } from '@app/common/database';
 import { TeamModule } from './team/team.module';
 import { TasksModule } from './tasks/tasks.module';
+import { CollaboratorModule } from './collaborator/collaborator.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { TasksModule } from './tasks/tasks.module';
     DatabaseModule,
     TeamModule,
     TasksModule,
+    CollaboratorModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
