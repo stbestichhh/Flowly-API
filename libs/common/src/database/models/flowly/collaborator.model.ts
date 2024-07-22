@@ -8,7 +8,7 @@ interface CollaboratorCreationAttributes {
 }
 
 @Table({ tableName: 'collaborators' })
-export class CollaboratorModel extends Model<CollaboratorModel, CollaboratorCreationAttributes> {
+export class Collaborator extends Model<Collaborator, CollaboratorCreationAttributes> {
   @ApiProperty({ example: 'collaboratoruuid', description: 'Collaborator UUID' })
   @Column({ type: DataType.STRING, allowNull: false, primaryKey: true, unique: true })
   id: string;
