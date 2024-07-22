@@ -1,73 +1,120 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+[![Node.js CI](https://github.com/stbestichhh/flowly-api/actions/workflows/node.js.yml/badge.svg)](https://github.com/stbestichhh/flowly-api/actions/workflows/node.js.yml)
+[![e2e tests CI](https://github.com/stbestichhh/flowly-api/actions/workflows/e2e.test.js.yml/badge.svg)](https://github.com/stbestichhh/flowly-api/actions/workflows/e2e.test.js.yml)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# Flowly API
 
-## Description
+## Table of contents
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+* [Description](#about)
+* [Getting started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation)
+  * [Deployment](#deployment)
+  * [Usage](#usage)
+  * [Running tests](#running-tests)
+* [Contributing](#contributing)
+* [Changelog](#changelog)
+* [Authors](#authors)
+* [License](#license)
 
-## Installation
+## About
 
-```bash
+Flowly API - backend for project managing service. Developed with NestJS using PostgreSQL database.
+
+## Getting started
+
+### Prerequisites
+
+* yarn `npm i -g yarn` or `corepack enable`
+
+> [!IMPORTANT]
+> **Node.js 18.x+** version must be installed in your OS.
+
+### Installation
+
+1. Clone the repository
+
+```shell
+$ git clone https://github.com/stbestichhh/flowly-api.git
+```
+
+2. Install dependencies
+
+```shell
 $ yarn install
 ```
 
-## Running the app
+### Deployment
 
-```bash
-# development
-$ yarn run start
+#### Start the server to production
 
-# watch mode
-$ yarn run start:dev
+  ```shell
+  $ yarn build
+  $ yarn start:prod auth
+  $ yarn start:prod flowly
+  $ yarn start:prod notifications
+  ```
 
-# production mode
-$ yarn run start:prod
+#### Start server locally
+
+  ```shell
+  $ yarn start:dev auth
+  $ yarn start:dev flowly
+  $ yarn start:dev notifications
+  ```
+
+### Usage
+
+See API docs by visiting `http://localhost:<service_port>/api/docs`
+
+### Running tests
+
+#### Unit tests
+
+```shell
+$ yarn test
 ```
 
-## Test
+watch mode
 
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+```shell
+$ yarn test:watch
 ```
 
-## Support
+#### End to end tests
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+This e2e tests are testing server api
 
-## Stay in touch
+```shell
+$ yarn test:e2e
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+watch mode
+
+```shell
+$ yarn test:e2e:watch
+```
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Changelog
+
+Project changes are writen in changelog, see the [CHANGELOG.md](CHANGELOG.md).
+
+We use [SemVer](https://semver.org/) for versioning.
+For the versions available, see the [tags](https://github.com/stbestichhh/flowly-api/tags) on this repository.
+
+For the supported and unsupported versions, see the [SECURITY.md](SECURITY.md).
+
+## Authors
+
+- [@stbestichhh](https://www.github.com/stbestichhh)
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE)
