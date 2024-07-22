@@ -9,9 +9,15 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
-  providers: [CollaboratorService, CollaboratorRepository, JwtStrategy, TeamRepository],
+  providers: [
+    CollaboratorService,
+    CollaboratorRepository,
+    JwtStrategy,
+    TeamRepository,
+  ],
   controllers: [CollaboratorController],
-  imports: [DatabaseModule.forFeature([Collaborator, Team]),
+  imports: [
+    DatabaseModule.forFeature([Collaborator, Team]),
     ClientsModule.registerAsync([
       {
         name: 'AUTH_SERVICE',

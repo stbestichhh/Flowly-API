@@ -49,9 +49,13 @@ export class TasksService {
     }
   }
 
-  private async checkCollaboratorOnTeam(collaboratorId: string, projectId: string) {
+  private async checkCollaboratorOnTeam(
+    collaboratorId: string,
+    projectId: string,
+  ) {
     const { team } = await this.projectRepository.findByPk(projectId);
-    const collaborator = await this.collaboratorRepository.findByPk(collaboratorId);
+    const collaborator =
+      await this.collaboratorRepository.findByPk(collaboratorId);
 
     if (collaborator.teamId !== team.id) {
       throw new ForbiddenException();
@@ -62,8 +66,12 @@ export class TasksService {
     let catchedExceptions = 0;
     const exceptionsToThrow = 2;
 
-    await this.checkTeamLeadOnProject(userId, projectId).catch(() => { ++catchedExceptions });
-    await this.checkCollaboratorOnTeam(userId, projectId).catch(() => { ++catchedExceptions });
+    await this.checkTeamLeadOnProject(userId, projectId).catch(() => {
+      ++catchedExceptions;
+    });
+    await this.checkCollaboratorOnTeam(userId, projectId).catch(() => {
+      ++catchedExceptions;
+    });
 
     if (catchedExceptions === exceptionsToThrow) {
       throw new ForbiddenException();

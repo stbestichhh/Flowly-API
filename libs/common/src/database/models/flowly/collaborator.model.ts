@@ -1,4 +1,10 @@
-import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
+import {
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { Team, User } from '@app/common/database';
 
@@ -8,17 +14,34 @@ interface CollaboratorCreationAttributes {
 }
 
 @Table({ tableName: 'collaborators' })
-export class Collaborator extends Model<Collaborator, CollaboratorCreationAttributes> {
-  @ApiProperty({ example: 'collaboratoruuid', description: 'Collaborator UUID' })
-  @Column({ type: DataType.STRING, allowNull: false, primaryKey: true, unique: true })
+export class Collaborator extends Model<
+  Collaborator,
+  CollaboratorCreationAttributes
+> {
+  @ApiProperty({
+    example: 'collaboratoruuid',
+    description: 'Collaborator UUID',
+  })
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    primaryKey: true,
+    unique: true,
+  })
   id: string;
 
-  @ApiProperty({ example: 'useruuid', description: 'User id this collaborator relates to' })
+  @ApiProperty({
+    example: 'useruuid',
+    description: 'User id this collaborator relates to',
+  })
   @ForeignKey(() => User)
   @Column({ type: DataType.STRING, allowNull: false })
   userId: string;
 
-  @ApiProperty({ example: 'teamuuid', description: 'Team this collaborator working in'})
+  @ApiProperty({
+    example: 'teamuuid',
+    description: 'Team this collaborator working in',
+  })
   @ForeignKey(() => Team)
   @Column({ type: DataType.STRING, allowNull: false })
   teamId: string;

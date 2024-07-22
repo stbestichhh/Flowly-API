@@ -1,5 +1,20 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtGuard, RoleGuard } from '@app/common/guards';
 import { CurrentUser, Roles } from '@app/common/decorators';
 import { RolesEnum } from '@app/common/enums';
@@ -19,7 +34,10 @@ export class CollaboratorController {
   @ApiResponse({ status: 200, type: [Collaborator] })
   @ApiResponse({ status: 404, description: 'Collaborators not found' })
   @Get()
-  public async getAll(@CurrentUser('sub') teamLeadId: string, @Body('teamId') teamId: string) {
+  public async getAll(
+    @CurrentUser('sub') teamLeadId: string,
+    @Body('teamId') teamId: string,
+  ) {
     return await this.collaboratorService.getAll(teamLeadId, teamId);
   }
 
@@ -27,7 +45,11 @@ export class CollaboratorController {
   @ApiResponse({ status: 200, type: Collaborator })
   @ApiResponse({ status: 404, description: 'Collaborator not found' })
   @Get(':id')
-  public async getById(@Param('id') id: string, @CurrentUser('sub') teamLeadId: string, @Body('teamId') teamId: string) {
+  public async getById(
+    @Param('id') id: string,
+    @CurrentUser('sub') teamLeadId: string,
+    @Body('teamId') teamId: string,
+  ) {
     return await this.collaboratorService.getById(id, teamLeadId, teamId);
   }
 
@@ -37,16 +59,26 @@ export class CollaboratorController {
   @ApiResponse({ status: 403, description: 'Collaborator already in the team' })
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  public async add(@Body() dto: AddCollaboratorDto, @CurrentUser('sub') teamLeaderId: string) {
+  public async add(
+    @Body() dto: AddCollaboratorDto,
+    @CurrentUser('sub') teamLeaderId: string,
+  ) {
     return await this.collaboratorService.add(dto, teamLeaderId);
   }
 
   @ApiOperation({ description: 'Delete collaborator' })
-  @ApiResponse({ status: 204, description: 'Collaborator deleted from project' })
+  @ApiResponse({
+    status: 204,
+    description: 'Collaborator deleted from project',
+  })
   @ApiResponse({ status: 404, description: 'Collaborator not found by id' })
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
-  public async delete(@Param('id') id: string, @CurrentUser('sub') teamLeaderId: string, @Body('teamId') teamId: string) {
+  public async delete(
+    @Param('id') id: string,
+    @CurrentUser('sub') teamLeaderId: string,
+    @Body('teamId') teamId: string,
+  ) {
     return await this.collaboratorService.delete(id, teamLeaderId, teamId);
   }
 }

@@ -5,7 +5,10 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CollaboratorRepository extends AbstractRepository<Collaborator> {
-  constructor(@InjectModel(Collaborator) protected readonly model: ModelCtor<Collaborator>) {
+  constructor(
+    @InjectModel(Collaborator)
+    protected readonly model: ModelCtor<Collaborator>,
+  ) {
     super(model);
   }
 }
