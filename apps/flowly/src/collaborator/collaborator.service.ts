@@ -1,11 +1,13 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CollaboratorRepository } from './collaborator.repository';
 import { TeamRepository } from '../team/team.repository';
 import { AddCollaboratorDto } from './dto';
+import { ClientProxy } from '@nestjs/microservices';
+import { RolesEnum } from '@app/common/enums';
 
 @Injectable()
 export class CollaboratorService {
-  constructor(private readonly collalboratorRepository: CollaboratorRepository, private readonly teamRepository: TeamRepository) {}
+  constructor(private readonly collalboratorRepository: CollaboratorRepository, private readonly teamRepository: TeamRepository, @Inject('AUTH_SERVICE') private readonly authService: ClientProxy) {}
 
   public async getAll(teamLeaderId: string, teamId: string) {
     await this.checkTeamLeaderOnTeam(teamId, teamLeaderId);
@@ -19,6 +21,18 @@ export class CollaboratorService {
 
   public async add(dto: AddCollaboratorDto, teamLeaderId: string) {
     await this.checkTeamLeaderOnTeam(dto.teamId, teamLeaderId);
+
+    const collaborator = await this.collalboratorRepository.findOne({ userId: dto.userId, teamId: dto.teamId });
+
+    if (collaborator) {
+      throw new ForbiddenException('Collaborator already exists');
+    }
+
+    await this.authService.emit('give_role', {
+      userId: dto.userId,
+      role: RolesEnum.COLLABORATOR,
+    });
+
     return await this.collalboratorRepository.create(dto);
   }
 

@@ -35,8 +35,8 @@ export class TasksController {
   @ApiResponse({ status: 404, description: 'Entity not found by id' })
   @Roles(RolesEnum.COLLABORATOR, RolesEnum.TEAMLEAD)
   @Get(':id')
-  public async getById(@Param('id') id: string) {
-    return await this.taskService.getById(id);
+  public async getById(@Param('id') id: string, @CurrentUser('sub') userId: string) {
+    return await this.taskService.getById(id, userId);
   }
 
   @ApiOperation({ description: 'Create a new task' })
@@ -71,8 +71,8 @@ export class TasksController {
   @ApiResponse({ status: 404, description: 'Entity not found by id' })
   @Roles(RolesEnum.COLLABORATOR, RolesEnum.TEAMLEAD)
   @Patch(':id/complete')
-  public async completeTask(@Param(':id') id: string) {
-    return await this.taskService.completeTask(id);
+  public async completeTask(@Param(':id') id: string, @CurrentUser('sub') userId: string) {
+    return await this.taskService.completeTask(id, userId);
   }
 
   @ApiOperation({ description: 'Delete task' })
