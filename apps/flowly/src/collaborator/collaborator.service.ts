@@ -19,7 +19,7 @@ export class CollaboratorService {
 
   public async add(dto: AddCollaboratorDto, teamLeaderId: string) {
     await this.checkTeamLeaderOnTeam(dto.teamId, teamLeaderId);
-    return await this.teamRepository.create(dto);
+    return await this.collalboratorRepository.create(dto);
   }
 
   async delete(id: string, teamLeaderId: string, teamId: string) {
