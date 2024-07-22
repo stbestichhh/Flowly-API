@@ -22,14 +22,15 @@ import {
 } from '@nestjs/swagger';
 import { User } from '@app/common/database';
 import { WhereOptions } from 'sequelize';
-import { AuthGuard, RoleGuard } from '@app/common/guards';
+import { JwtGuard, RoleGuard } from '@app/common/guards';
 import { AddRoleDto } from './dto/add-role.dto';
-import { Roles } from '@app/common/decorators';
+import { Public, Roles } from '@app/common/decorators';
 import { RolesEnum } from '@app/common/enums';
+import { EventPattern, Payload } from '@nestjs/microservices';
 
 @ApiTags('Users')
 @Roles(RolesEnum.ADMIN)
-@UseGuards(AuthGuard, RoleGuard)
+@UseGuards(JwtGuard, RoleGuard)
 @ApiBearerAuth()
 @Controller('users')
 export class UsersController {
@@ -83,7 +84,7 @@ export class UsersController {
     return await this.userService.update(id, dto);
   }
 
-  @ApiOperation({ summary: 'Get user by his uuid' })
+  @ApiOperation({ summary: 'Delete user by his uuid' })
   @ApiResponse({ status: 204, description: 'User deleted' })
   @ApiResponse({ status: 404, description: 'User not found' })
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -107,6 +108,12 @@ export class UsersController {
   @ApiResponse({ status: 400, description: 'Body is not correct' })
   @Post('/role')
   public async addRole(@Body() dto: AddRoleDto) {
+    return await this.userService.addRole(dto);
+  }
+
+  @Public()
+  @EventPattern('give_role')
+  public async giveRoleEvent(@Payload() dto: AddRoleDto) {
     return await this.userService.addRole(dto);
   }
 }

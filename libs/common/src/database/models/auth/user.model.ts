@@ -2,11 +2,13 @@ import {
   BelongsToMany,
   Column,
   DataType,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { Role, UserRole } from '@app/common/database';
+import { Project } from '@app/common/database/models/flowly/project.model';
 
 interface UserCreationAttributes {
   username: string;
@@ -49,4 +51,7 @@ export class User extends Model<User, UserCreationAttributes> {
   @ApiProperty({ example: '[ADMIN, USER]', description: 'User roles' })
   @BelongsToMany(() => Role, () => UserRole)
   roles: Role[];
+
+  @HasMany(() => Project)
+  managedProjects: Project[];
 }

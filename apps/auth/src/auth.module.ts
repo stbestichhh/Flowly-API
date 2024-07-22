@@ -8,17 +8,33 @@ import { RolesModule } from './roles/roles.module';
 import { LoggerModule } from '@app/common/logger';
 import * as Joi from 'joi';
 import { RateLimitterModule } from '@app/common/rate-limitter';
+import { PassportModule } from '@nestjs/passport';
+import { LocalStrategy } from './strategies';
+import { JwtStrategy } from '@app/common/strategies';
+import { HealthModule } from './health/health.module';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import * as process from 'process';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 @Module({
   imports: [
+    PassportModule,
     UsersModule,
     LoggerModule,
     RateLimitterModule,
     ConfigModule.forRoot({
       validationSchema: Joi.object({
+        AUTH_PORT: Joi.number().port().required(),
+        AUTH_HOST: Joi.string().hostname().required(),
         SECRET_KEY: Joi.string().required(),
         JWT_EXPIRATION: Joi.string().required(),
+        NOTIFICATIONS_HOST: Joi.string().hostname().required(),
+        NOTIFICATIONS_PORT: Joi.number().port().required(),
+        AUTH_EVENT_HOST: Joi.string().hostname().required(),
+        AUTH_EVENT_PORT: Joi.number().port().required(),
       }),
+      envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
@@ -30,8 +46,28 @@ import { RateLimitterModule } from '@app/common/rate-limitter';
       imports: [ConfigModule],
     }),
     RolesModule,
+    HealthModule,
+    ClientsModule.registerAsync([
+      {
+        name: 'NOTIFICATIONS_SERVICE',
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>('NOTIFICATIONS_HOST'),
+            port: configService.get<number>('NOTIFICATIONS_PORT'),
+          },
+        }),
+        inject: [ConfigService],
+        imports: [ConfigModule],
+      },
+    ]),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
+  ],
 })
 export class AuthModule {}

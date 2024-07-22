@@ -5,21 +5,20 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { Logger as PinoLogger } from 'nestjs-pino';
 import helmet from 'helmet';
+import { Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AuthModule, {
     bufferLogs: true,
+    cors: true,
   });
   const configService = app.get(ConfigService);
   const logger = new Logger(bootstrap.name);
-
-  app.useLogger(app.get(PinoLogger));
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Authorization')
     .setDescription('Flowly authorization microservice API')
     .setVersion('1.0.0')
-    .addTag('Flowly API')
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
@@ -31,12 +30,25 @@ async function bootstrap() {
     }),
   );
 
+  const PORT = configService.get<number>('AUTH_PORT');
+  const HOST = configService.get<string>('AUTH_HOST');
+  const EVENT_PORT = configService.get<number>('AUTH_EVENT_PORT');
+  const EVENT_HOST = configService.get<string>('AUTH_EVENT_HOST');
+
+  app.useLogger(app.get(PinoLogger));
   app.use(helmet());
   app.enableCors();
+  app.connectMicroservice({
+    transport: Transport.TCP,
+    options: {
+      host: EVENT_HOST,
+      port: EVENT_PORT,
+    },
+  });
 
-  const PORT = configService.get('HTTP_PORT');
-  const HOST = configService.get('HTTP_HOST');
-
+  await app.startAllMicroservices().then(async () => {
+    logger.log(`Microservice is running on http://${HOST}:${PORT}`);
+  });
   await app.listen(PORT, HOST, async () => {
     logger.log(`Service is running on ${await app.getUrl()}`);
     logger.log(`Docs are running on: ${await app.getUrl()}/api/auth/docs`);

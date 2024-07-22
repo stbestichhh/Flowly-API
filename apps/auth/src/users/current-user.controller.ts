@@ -8,7 +8,7 @@ import {
 } from '@nestjs/swagger';
 import { Roles } from '@app/common/decorators/role.decorator';
 import { RolesEnum } from '@app/common/enums';
-import { AuthGuard, RoleGuard } from '@app/common/guards';
+import { RoleGuard, JwtGuard } from '@app/common/guards';
 import { UpdateUserDto } from './dto';
 import { User } from '@app/common/database';
 import { CurrentUser } from '@app/common/decorators';
@@ -21,7 +21,7 @@ import { CurrentUser } from '@app/common/decorators';
   RolesEnum.COLLABORATOR,
   RolesEnum.USER,
 )
-@UseGuards(AuthGuard, RoleGuard)
+@UseGuards(JwtGuard, RoleGuard)
 @ApiBearerAuth()
 @Controller('user/me')
 export class CurrentUserController {

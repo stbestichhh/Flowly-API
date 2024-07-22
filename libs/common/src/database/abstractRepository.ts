@@ -16,7 +16,7 @@ export abstract class AbstractRepository<TModel extends Model> {
   protected constructor(protected readonly model: ModelCtor<TModel>) {}
 
   async create(dto: CreationAttributes<TModel>) {
-    return await this.model
+    return (await this.model
       .create(
         {
           ...dto,
@@ -32,7 +32,7 @@ export abstract class AbstractRepository<TModel extends Model> {
         }
         this.logger.error(e);
         throw new InternalServerErrorException();
-      });
+      })) as TModel;
   }
 
   async findByPk(id: string) {
@@ -44,7 +44,7 @@ export abstract class AbstractRepository<TModel extends Model> {
       throw new NotFoundException(`Entity not found by id: ${id}`);
     }
 
-    return entity;
+    return entity as TModel;
   }
 
   async findOne(options: WhereOptions<TModel>) {
@@ -59,12 +59,13 @@ export abstract class AbstractRepository<TModel extends Model> {
       );
     }
 
-    return entity;
+    return entity as TModel;
   }
 
-  async findAll() {
+  async findAll(options?: WhereOptions<TModel>) {
     const entities = await this.model.findAll({
       include: { all: true },
+      where: options,
     });
 
     if (!entities.length) {

@@ -1,14 +1,31 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '@app/common/database';
 import { CreateUserDto } from './users/dto';
-import { SigninDto } from './dto';
+import { LocalGuard } from './guards';
+import { CurrentUser } from '@app/common/decorators';
+import { Throttle } from '@nestjs/throttler';
 
 @ApiTags('Authentication')
+@Throttle({ default: { limit: 1, ttl: 60000 } })
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  public get() {
+    return 'Ok';
+  }
 
   @ApiOperation({ summary: 'Create new account' })
   @ApiResponse({ status: 201, type: User })
@@ -27,8 +44,9 @@ export class AuthController {
   })
   @ApiResponse({ status: 403, description: 'Credentials are incorrect' })
   @ApiResponse({ status: 400, description: 'Body is not correct' })
+  @UseGuards(LocalGuard)
   @Post('signin')
-  public async signin(@Body() dto: SigninDto) {
-    return await this.authService.signin(dto);
+  public async signin(@CurrentUser() user: User) {
+    return await this.authService.signin(user);
   }
 }

@@ -1,3 +1,6 @@
+# yarn
+.yarn
+
 # compiled output
 /dist
 /node_modules
@@ -36,6 +39,7 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # dotenv environment variable files
+.email.env
 .env
 .env.development.local
 .env.test.local
