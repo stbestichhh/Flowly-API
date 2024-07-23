@@ -12,7 +12,7 @@ import { CacheModule } from '@app/common/cache';
   providers: [UsersService, UserRepository, RoleRepository],
   controllers: [UsersController, CurrentUserController],
   imports: [
-    CacheModule,
+    CacheModule.registerAsync(),
     DatabaseModule,
     DatabaseModule.forFeature([Role, User, UserRole]),
     JwtModule,

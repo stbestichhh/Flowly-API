@@ -47,7 +47,7 @@ async function bootstrap() {
   });
 
   await app.startAllMicroservices().then(async () => {
-    logger.log(`Microservice is running on http://${HOST}:${PORT}`);
+    logger.log(`Microservice is running on http://${EVENT_HOST}:${EVENT_PORT}`);
   });
   await app.listen(PORT, HOST, async () => {
     logger.log(`Service is running on ${await app.getUrl()}`);
