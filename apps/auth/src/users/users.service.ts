@@ -29,13 +29,14 @@ export class UsersService {
   public async getAll() {
     const usersFromCahche = await this.cacheManager.get('users');
 
-    if (!usersFromCahche) {
-      const users = await this.userRepository.findAll();
-      await this.cacheManager.set('users', users, 0);
-      return users;
+    if (usersFromCahche) {
+      return usersFromCahche;
     }
 
-    return usersFromCahche;
+    const users = await this.userRepository.findAll();
+    await this.cacheManager.set('users', users, 0);
+
+    return users;
   }
 
   public async create(dto: CreateUserDto) {
