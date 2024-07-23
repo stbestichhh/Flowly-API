@@ -11,6 +11,8 @@ import { DatabaseModule } from '@app/common/database';
 import { TeamModule } from './team/team.module';
 import { TasksModule } from './tasks/tasks.module';
 import { CollaboratorModule } from './collaborator/collaborator.module';
+import { HealthModule } from './health/health.module';
+import { FlowlyController } from './flowly/flowly.controller';
 
 @Module({
   imports: [
@@ -31,7 +33,9 @@ import { CollaboratorModule } from './collaborator/collaborator.module';
     TeamModule,
     TasksModule,
     CollaboratorModule,
+    HealthModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
+  controllers: [FlowlyController],
 })
 export class FlowlyModule {}
