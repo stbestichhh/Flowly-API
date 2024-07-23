@@ -9,7 +9,8 @@ import {
   Patch,
   Post,
   Query,
-  UseGuards, UseInterceptors,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { BanUserDto, CreateUserDto, UpdateUserDto } from './dto';
