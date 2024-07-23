@@ -19,9 +19,10 @@ export class HealthController {
   @Get()
   @HealthCheck()
   public check() {
-    const PORT = this.config.get('HTTP_PORT');
+    const PORT = this.config.get<number>('AUTH_PORT');
+    const HOST = this.config.get<string>('AUTH_HOST');
     return this.health.check([
-      () => this.http.pingCheck('auth', `http://localhost:${PORT}/auth`),
+      () => this.http.pingCheck('auth', `http://${HOST}:${PORT}/auth`),
       () => this.db.pingCheck('database'),
     ]);
   }
