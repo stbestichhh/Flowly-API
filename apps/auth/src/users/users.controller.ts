@@ -10,6 +10,7 @@ import {
   Post,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { BanUserDto, CreateUserDto, UpdateUserDto } from './dto';
@@ -27,6 +28,7 @@ import { AddRoleDto } from './dto/add-role.dto';
 import { Public, Roles } from '@app/common/decorators';
 import { RolesEnum } from '@app/common/enums';
 import { EventPattern, Payload } from '@nestjs/microservices';
+import { CacheInterceptor, CacheKey } from '@nestjs/cache-manager';
 
 @ApiTags('Users')
 @Roles(RolesEnum.ADMIN)
@@ -52,6 +54,8 @@ export class UsersController {
   @ApiOperation({ summary: 'Get user by his uuid' })
   @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: `User not found by id` })
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey('user')
   @Get(':id')
   public async getById(@Param('id') id: string) {
     return await this.userService.getById(id);

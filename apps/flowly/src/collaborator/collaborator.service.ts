@@ -1,8 +1,4 @@
-import {
-  ForbiddenException,
-  Inject,
-  Injectable,
-} from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { CollaboratorRepository } from './collaborator.repository';
 import { TeamRepository } from '../team/team.repository';
 import { AddCollaboratorDto } from './dto';
