@@ -12,7 +12,8 @@ import { EmailModule } from '@app/common/email';
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
       validationSchema: Joi.object({
-        HTTP_PORT: Joi.number().port().required(),
+        NOTIFICATIONS_PORT: Joi.number().port().required(),
+        NOTIFICATIONS_HOST: Joi.string().hostname().required(),
       }),
     }),
     LoggerModule,
