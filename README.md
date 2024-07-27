@@ -29,6 +29,10 @@ Flowly API - backend for project managing service. Developed with NestJS using P
 ### Prerequisites
 
 * yarn `npm i -g yarn` or `corepack enable`
+* Running servers:
+  * PostgreSQL
+  * Redis
+  * RabbitMQ
 
 > [!IMPORTANT]
 > **Node.js 18.x+** version must be installed in your OS.
