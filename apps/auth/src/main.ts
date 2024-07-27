@@ -32,22 +32,26 @@ async function bootstrap() {
 
   const PORT = configService.get<number>('AUTH_PORT');
   const HOST = configService.get<string>('AUTH_HOST');
-  const EVENT_PORT = configService.get<number>('AUTH_EVENT_PORT');
-  const EVENT_HOST = configService.get<string>('AUTH_EVENT_HOST');
+  // const EVENT_PORT = configService.get<number>('AUTH_EVENT_PORT');
+  // const EVENT_HOST = configService.get<string>('AUTH_EVENT_HOST');
+  const REDIS_HOST = configService.get<string>('REDIS_HOST');
+  const REDIS_PORT = configService.get<number>('REDIS_PORT');
+  const REDIS_PASSWORD = configService.get<string>('REDIS_PASSWORD');
 
   app.useLogger(app.get(PinoLogger));
   app.use(helmet());
   app.enableCors();
   app.connectMicroservice({
-    transport: Transport.TCP,
+    transport: Transport.REDIS,
     options: {
-      host: EVENT_HOST,
-      port: EVENT_PORT,
+      host: REDIS_HOST,
+      port: REDIS_PORT,
+      password: REDIS_PASSWORD,
     },
   });
 
   await app.startAllMicroservices().then(async () => {
-    logger.log(`Microservice is running on http://${EVENT_HOST}:${EVENT_PORT}`);
+    logger.log(`Microservice is running on http://${REDIS_HOST}:${REDIS_PORT}`);
   });
   await app.listen(PORT, HOST, async () => {
     logger.log(`Service is running on ${await app.getUrl()}`);

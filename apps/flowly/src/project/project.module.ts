@@ -14,10 +14,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       {
         name: 'AUTH_SERVICE',
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.REDIS,
           options: {
-            host: configService.get<string>('AUTH_EVENT_HOST'),
-            port: configService.get<number>('AUTH_EVENT_PORT'),
+            host: configService.get<string>('REDIS_HOST'),
+            port: configService.get<number>('REDIS_PORT'),
+            password: configService.get<string>('REDIS_PASSWORD'),
           },
         }),
         inject: [ConfigService],

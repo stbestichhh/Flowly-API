@@ -31,8 +31,11 @@ import { ThrottlerGuard } from '@nestjs/throttler';
         JWT_EXPIRATION: Joi.string().required(),
         NOTIFICATIONS_HOST: Joi.string().hostname().required(),
         NOTIFICATIONS_PORT: Joi.number().port().required(),
-        AUTH_EVENT_HOST: Joi.string().hostname().required(),
-        AUTH_EVENT_PORT: Joi.number().port().required(),
+        // AUTH_EVENT_HOST: Joi.string().hostname().required(),
+        // AUTH_EVENT_PORT: Joi.number().port().required(),
+        REDIS_HOST: Joi.string().hostname().required(),
+        REDIS_PORT: Joi.number().port().required(),
+        REDIS_PASSWORD: Joi.string().required(),
       }),
       envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
@@ -51,10 +54,11 @@ import { ThrottlerGuard } from '@nestjs/throttler';
       {
         name: 'NOTIFICATIONS_SERVICE',
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.REDIS,
           options: {
-            host: configService.get<string>('NOTIFICATIONS_HOST'),
-            port: configService.get<number>('NOTIFICATIONS_PORT'),
+            host: configService.get<string>('REDIS_HOST'),
+            port: configService.get<number>('REDIS_PORT'),
+            password: configService.get<string>('REDIS_PASSWORD'),
           },
         }),
         inject: [ConfigService],
