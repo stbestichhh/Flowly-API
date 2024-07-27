@@ -3,7 +3,7 @@ import { NotificationsModule } from './notifications.module';
 import { ConfigService } from '@nestjs/config';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { Logger as PinoLogger } from 'nestjs-pino';
-import { Transport } from '@nestjs/microservices';
+import { RmqOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(NotificationsModule, {
@@ -19,21 +19,23 @@ async function bootstrap() {
     }),
   );
 
-  const PORT = configService.get<number>('NOTIFICATIONS_PORT');
-  const HOST = configService.get<string>('NOTIFICATIONS_HOST');
+  const RABBITMQ_URL = configService.get<string>('RABBITMQ_URL');
 
   app.useLogger(app.get<PinoLogger>(PinoLogger));
   app.enableCors();
-  app.connectMicroservice({
-    transport: Transport.TCP,
+  app.connectMicroservice<RmqOptions>({
+    transport: Transport.RMQ,
     options: {
-      host: HOST,
-      port: PORT,
+      urls: [RABBITMQ_URL],
+      queue: 'notifications_queue',
+      queueOptions: {
+        durable: false,
+      },
     },
   });
 
   await app.startAllMicroservices().then(async () => {
-    logger.log(`Microservice is running on http://${HOST}:${PORT}`);
+    logger.log(`Microservice is running on ${RABBITMQ_URL}`);
   });
 }
 bootstrap();
