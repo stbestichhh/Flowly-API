@@ -5,7 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { Logger as PinoLogger } from 'nestjs-pino';
 import helmet from 'helmet';
-import { Transport } from '@nestjs/microservices';
+import { RmqOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AuthModule, {
@@ -32,22 +32,24 @@ async function bootstrap() {
 
   const PORT = configService.get<number>('AUTH_PORT');
   const HOST = configService.get<string>('AUTH_HOST');
-  const EVENT_PORT = configService.get<number>('AUTH_EVENT_PORT');
-  const EVENT_HOST = configService.get<string>('AUTH_EVENT_HOST');
+  const RABBITMQ_URL = configService.get<string>('RABBITMQ_URL');
 
   app.useLogger(app.get(PinoLogger));
   app.use(helmet());
   app.enableCors();
-  app.connectMicroservice({
-    transport: Transport.TCP,
+  app.connectMicroservice<RmqOptions>({
+    transport: Transport.RMQ,
     options: {
-      host: EVENT_HOST,
-      port: EVENT_PORT,
+      urls: [RABBITMQ_URL],
+      queue: 'auth-queue',
+      queueOptions: {
+        durable: false,
+      },
     },
   });
 
   await app.startAllMicroservices().then(async () => {
-    logger.log(`Microservice is running on http://${EVENT_HOST}:${EVENT_PORT}`);
+    logger.log(`Microservice is running on ${RABBITMQ_URL}`);
   });
   await app.listen(PORT, HOST, async () => {
     logger.log(`Service is running on ${await app.getUrl()}`);

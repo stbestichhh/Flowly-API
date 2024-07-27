@@ -22,10 +22,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       {
         name: 'AUTH_SERVICE',
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.RMQ,
           options: {
-            host: configService.get<string>('AUTH_EVENT_HOST'),
-            port: configService.get<number>('AUTH_EVENT_PORT'),
+            urls: [configService.get<string>('RABBITMQ_URL')],
+            queue: 'auth_queue',
+            queueOptions: {
+              durable: false,
+            },
           },
         }),
         inject: [ConfigService],

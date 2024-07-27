@@ -29,10 +29,9 @@ import { ThrottlerGuard } from '@nestjs/throttler';
         AUTH_HOST: Joi.string().hostname().required(),
         SECRET_KEY: Joi.string().required(),
         JWT_EXPIRATION: Joi.string().required(),
-        NOTIFICATIONS_HOST: Joi.string().hostname().required(),
-        NOTIFICATIONS_PORT: Joi.number().port().required(),
-        AUTH_EVENT_HOST: Joi.string().hostname().required(),
-        AUTH_EVENT_PORT: Joi.number().port().required(),
+        NOTIFICATIONS_HOST: Joi.string().hostname(),
+        NOTIFICATIONS_PORT: Joi.number().port(),
+        RABBITMQ_URL: Joi.string().required(),
       }),
       envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
@@ -51,10 +50,13 @@ import { ThrottlerGuard } from '@nestjs/throttler';
       {
         name: 'NOTIFICATIONS_SERVICE',
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.RMQ,
           options: {
-            host: configService.get<string>('NOTIFICATIONS_HOST'),
-            port: configService.get<number>('NOTIFICATIONS_PORT'),
+            urls: [configService.get<string>('RABBITMQ_URL')],
+            queue: 'notifications_queue',
+            queueOptions: {
+              durable: false,
+            },
           },
         }),
         inject: [ConfigService],
