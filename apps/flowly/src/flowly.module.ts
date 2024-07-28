@@ -13,6 +13,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { CollaboratorModule } from './collaborator/collaborator.module';
 import { HealthModule } from './health/health.module';
 import { FlowlyController } from './flowly/flowly.controller';
+import { HttpsService, ShutdownObserver } from '@app/common/https';
 
 @Module({
   imports: [
@@ -36,7 +37,11 @@ import { FlowlyController } from './flowly/flowly.controller';
     CollaboratorModule,
     HealthModule,
   ],
-  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
+  providers: [
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
+    ShutdownObserver,
+    HttpsService,
+  ],
   controllers: [FlowlyController],
 })
 export class FlowlyModule {}
