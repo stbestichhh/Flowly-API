@@ -8,7 +8,6 @@ import helmet from 'helmet';
 import { RmqOptions, Transport } from '@nestjs/microservices';
 import { HttpsService, ShutdownObserver } from '@app/common/https';
 import { ExpressAdapter } from '@nestjs/platform-express';
-import * as http from 'http';
 import * as https from 'https';
 import * as express from 'express';
 
@@ -18,13 +17,12 @@ async function bootstrap() {
     bufferLogs: true,
     cors: true,
   });
-  await app.init();
 
   const httpsService: HttpsService = app.get(HttpsService);
   const httpsOptions = httpsService.getCertificate();
   const shutdownObserver: ShutdownObserver = app.get(ShutdownObserver);
 
-  const configService = app.get(ConfigService);
+  const configService = app.get<ConfigService>(ConfigService);
   const logger = new Logger(bootstrap.name);
 
   const PORT = configService.get<number>('AUTH_PORT');
@@ -61,16 +59,13 @@ async function bootstrap() {
     },
   });
 
-  const httpServer = http.createServer(server);
   const httpsServer = https.createServer(httpsOptions, server);
-
-  shutdownObserver.addServer(httpServer);
   shutdownObserver.addServer(httpsServer);
 
   await httpsServer.listen(AUTH_HTTPS_PORT, HOST, async () => {
     logger.log(`Secure service is running on ${HOST}:${AUTH_HTTPS_PORT}`);
   });
-  await httpServer.listen(PORT, HOST, async () => {
+  await app.listen(PORT, HOST, async () => {
     logger.log(`Service is running on ${HOST}:${PORT}`);
   });
   await app.startAllMicroservices().then(async () => {
