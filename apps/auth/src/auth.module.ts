@@ -16,6 +16,7 @@ import * as process from 'process';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { RabbitMqModule } from '@app/common/rabbit-mq';
+import { HttpsService, ShutdownObserver } from '@app/common/https';
 
 @Module({
   imports: [
@@ -57,6 +58,8 @@ import { RabbitMqModule } from '@app/common/rabbit-mq';
     LocalStrategy,
     JwtStrategy,
     { provide: APP_GUARD, useClass: ThrottlerGuard },
+    ShutdownObserver,
+    HttpsService,
   ],
 })
 export class AuthModule {}
