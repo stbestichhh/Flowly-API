@@ -14,7 +14,6 @@ async function bootstrap() {
   const server = express();
   const app = await NestFactory.create(
     FlowlyModule,
-    new ExpressAdapter(server),
     {
       bufferLogs: true,
       cors: true,
@@ -48,7 +47,7 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-  app.useLogger(app.get(PinoLogger));
+  app.useLogger(app.get<PinoLogger>(PinoLogger));
   app.use(helmet());
   app.enableCors();
 

@@ -7,13 +7,12 @@ import { Logger as PinoLogger } from 'nestjs-pino';
 import helmet from 'helmet';
 import { RmqOptions, Transport } from '@nestjs/microservices';
 import { HttpsService, ShutdownObserver } from '@app/common/https';
-import { ExpressAdapter } from '@nestjs/platform-express';
 import * as https from 'https';
 import * as express from 'express';
 
 async function bootstrap() {
   const server = express();
-  const app = await NestFactory.create(AuthModule, new ExpressAdapter(server), {
+  const app = await NestFactory.create(AuthModule, {
     bufferLogs: true,
     cors: true,
   });
@@ -45,7 +44,7 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-  app.useLogger(app.get(PinoLogger));
+  app.useLogger(app.get<PinoLogger>(PinoLogger));
   app.use(helmet());
   app.enableCors();
   app.connectMicroservice<RmqOptions>({
