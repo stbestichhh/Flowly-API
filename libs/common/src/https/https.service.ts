@@ -29,7 +29,10 @@ export class HttpsService {
         }
 
         this.certificate_key = { key: keys.clientKey, cert: keys.certificate };
-        this.logger.log({ message: 'Certificate has been created', data: this.certificate_key });
+        this.logger.log({
+          message: 'Certificate has been created',
+          data: this.certificate_key,
+        });
       },
     );
   }
