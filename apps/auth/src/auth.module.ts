@@ -16,6 +16,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import * as process from 'process';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard } from '@nestjs/throttler';
+import { RabbitMqModule } from '@app/common/rabbit-mq';
 
 @Module({
   imports: [
@@ -46,23 +47,10 @@ import { ThrottlerGuard } from '@nestjs/throttler';
     }),
     RolesModule,
     HealthModule,
-    ClientsModule.registerAsync([
-      {
-        name: 'NOTIFICATIONS_SERVICE',
-        useFactory: (configService: ConfigService) => ({
-          transport: Transport.RMQ,
-          options: {
-            urls: [configService.get<string>('RABBITMQ_URL')],
-            queue: 'notifications_queue',
-            queueOptions: {
-              durable: false,
-            },
-          },
-        }),
-        inject: [ConfigService],
-        imports: [ConfigModule],
-      },
-    ]),
+    RabbitMqModule.registerAsync(
+      'NOTIFICATIONS_SERVICE',
+      'notifications_queue',
+    ),
   ],
   controllers: [AuthController],
   providers: [
