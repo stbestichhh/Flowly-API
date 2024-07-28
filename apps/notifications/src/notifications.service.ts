@@ -10,15 +10,17 @@ export class NotificationsService {
   constructor(private readonly mailService: MailerService) {}
 
   public async sendEmail(dto: EmailDto) {
-    await this.mailService.sendMail({
-      to: dto.receiver,
-      subject: dto.subject,
-      template: path.resolve('libs/common/src/email/templates/template.hbs'),
-      context: {
-        message: dto.message,
-      },
-    }).then(() => {
-      this.logger.log({ status: 'OK', data: dto });
-    });
+    await this.mailService
+      .sendMail({
+        to: dto.receiver,
+        subject: dto.subject,
+        template: path.resolve('libs/common/src/email/templates/template.hbs'),
+        context: {
+          message: dto.message,
+        },
+      })
+      .then(() => {
+        this.logger.log({ status: 'OK', data: dto });
+      });
   }
 }
