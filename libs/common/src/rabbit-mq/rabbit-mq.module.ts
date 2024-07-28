@@ -6,7 +6,6 @@ import * as Joi from 'joi';
 
 @Module({
   imports: [
-    ClientsModule,
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         RABBITMQ_URL: Joi.string().required(),
@@ -17,7 +16,7 @@ import * as Joi from 'joi';
 })
 export class RabbitMqModule {
   public static registerAsync(name: string, queue: string) {
-    ClientsModule.registerAsync([
+    return ClientsModule.registerAsync([
       {
         name,
         useFactory: (configService: ConfigService) => ({
