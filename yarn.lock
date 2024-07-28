@@ -2043,6 +2043,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/pem@npm:^1":
+  version: 1.14.4
+  resolution: "@types/pem@npm:1.14.4"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/1757eb5ac81e63baaf799800c6cf1d7a9a70afe3430d9dc2715ea1390450a1650317167a481a8c015e37299c784272d5b73e249ea47552e2ba8f9f4bd3086130
+  languageName: node
+  linkType: hard
+
 "@types/pug@npm:^2.0.10":
   version: 2.0.10
   resolution: "@types/pug@npm:2.0.10"
@@ -3297,6 +3306,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"charenc@npm:0.0.2":
+  version: 0.0.2
+  resolution: "charenc@npm:0.0.2"
+  checksum: 10c0/a45ec39363a16799d0f9365c8dd0c78e711415113c6f14787a22462ef451f5013efae8a28f1c058f81fc01f2a6a16955f7a5fd0cd56247ce94a45349c89877d8
+  languageName: node
+  linkType: hard
+
 "check-disk-space@npm:3.4.0":
   version: 3.4.0
   resolution: "check-disk-space@npm:3.4.0"
@@ -3799,6 +3815,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"crypt@npm:0.0.2":
+  version: 0.0.2
+  resolution: "crypt@npm:0.0.2"
+  checksum: 10c0/adbf263441dd801665d5425f044647533f39f4612544071b1471962209d235042fb703c27eea2795c7c53e1dfc242405173003f83cf4f4761a633d11f9653f18
+  languageName: node
+  linkType: hard
+
 "css-select@npm:^5.1.0":
   version: 5.1.0
   resolution: "css-select@npm:5.1.0"
@@ -4296,6 +4319,13 @@ __metadata:
   version: 1.5.4
   resolution: "es-module-lexer@npm:1.5.4"
   checksum: 10c0/300a469488c2f22081df1e4c8398c78db92358496e639b0df7f89ac6455462aaf5d8893939087c1a1cbcbf20eed4610c70e0bcb8f3e4b0d80a5d2611c539408c
+  languageName: node
+  linkType: hard
+
+"es6-promisify@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "es6-promisify@npm:7.0.0"
+  checksum: 10c0/2d71b098a9bff9802cdb5cd9f4079d13d31236a2ed4753230c3099edff2c0f34b280fcf7ce814e0ff30713dfb25dd888d1eb2ac50a8f1e26ceae04d66d51c4f4
   languageName: node
   linkType: hard
 
@@ -4890,6 +4920,7 @@ __metadata:
     "@types/nodemailer": "npm:^6.4.15"
     "@types/passport-jwt": "npm:^4.0.1"
     "@types/passport-local": "npm:^1.0.38"
+    "@types/pem": "npm:^1"
     "@types/sequelize": "npm:^4.28.20"
     "@types/supertest": "npm:^6.0.0"
     "@types/uuid": "npm:^10.0.0"
@@ -4916,6 +4947,7 @@ __metadata:
     passport: "npm:^0.7.0"
     passport-jwt: "npm:^4.0.1"
     passport-local: "npm:^1.0.0"
+    pem: "npm:^1.14.8"
     pg: "npm:^8.12.0"
     pg-hstore: "npm:^2.3.4"
     pino-http: "npm:^10.1.0"
@@ -5739,6 +5771,13 @@ __metadata:
   dependencies:
     binary-extensions: "npm:^2.0.0"
   checksum: 10c0/a16eaee59ae2b315ba36fad5c5dcaf8e49c3e27318f8ab8fa3cdb8772bf559c8d1ba750a589c2ccb096113bb64497084361a25960899cb6172a6925ab6123d38
+  languageName: node
+  linkType: hard
+
+"is-buffer@npm:~1.1.6":
+  version: 1.1.6
+  resolution: "is-buffer@npm:1.1.6"
+  checksum: 10c0/ae18aa0b6e113d6c490ad1db5e8df9bdb57758382b313f5a22c9c61084875c6396d50bbf49315f5b1926d142d74dfb8d31b40d993a383e0a158b15fea7a82234
   languageName: node
   linkType: hard
 
@@ -7051,6 +7090,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"md5@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "md5@npm:2.3.0"
+  dependencies:
+    charenc: "npm:0.0.2"
+    crypt: "npm:0.0.2"
+    is-buffer: "npm:~1.1.6"
+  checksum: 10c0/14a21d597d92e5b738255fbe7fe379905b8cb97e0a49d44a20b58526a646ec5518c337b817ce0094ca94d3e81a3313879c4c7b510d250c282d53afbbdede9110
+  languageName: node
+  linkType: hard
+
 "media-typer@npm:0.3.0":
   version: 0.3.0
   resolution: "media-typer@npm:0.3.0"
@@ -8069,7 +8119,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"os-tmpdir@npm:~1.0.2":
+"os-tmpdir@npm:^1.0.2, os-tmpdir@npm:~1.0.2":
   version: 1.0.2
   resolution: "os-tmpdir@npm:1.0.2"
   checksum: 10c0/f438450224f8e2687605a8dd318f0db694b6293c5d835ae509a69e97c8de38b6994645337e5577f5001115470414638978cc49da1cdcc25106dad8738dc69990
@@ -8349,6 +8399,18 @@ __metadata:
   version: 0.9.0
   resolution: "peberminta@npm:0.9.0"
   checksum: 10c0/59c2c39269d9f7f559cf44582f1c0503524c6a9bc3478e0309adba2b41c71ab98745a239a4e6f98f46105291256e6d8f12ae9860d9f016b1c9a6f52c0b63bfe7
+  languageName: node
+  linkType: hard
+
+"pem@npm:^1.14.8":
+  version: 1.14.8
+  resolution: "pem@npm:1.14.8"
+  dependencies:
+    es6-promisify: "npm:^7.0.0"
+    md5: "npm:^2.3.0"
+    os-tmpdir: "npm:^1.0.2"
+    which: "npm:^2.0.2"
+  checksum: 10c0/c57cb469ba607ac8a71b63be3ae37749909581a8fe1453424e084f3421feefeba78b0e6615feffe77fe9680a04f27ad92342352fc11a4c619086498633506eb3
   languageName: node
   linkType: hard
 
@@ -10581,7 +10643,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"which@npm:^2.0.1":
+"which@npm:^2.0.1, which@npm:^2.0.2":
   version: 2.0.2
   resolution: "which@npm:2.0.2"
   dependencies:
