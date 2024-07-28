@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { RabbitMqService } from '@app/common/rabbit-mq/rabbit-mq.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as process from 'process';
 import * as Joi from 'joi';
@@ -15,8 +14,6 @@ import * as Joi from 'joi';
       envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
   ],
-  providers: [RabbitMqService],
-  exports: [RabbitMqService],
 })
 export class RabbitMqModule {
   public static registerAsync(name: string, queue: string) {
