@@ -12,7 +12,6 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies';
 import { JwtStrategy } from '@app/common/strategies';
 import { HealthModule } from './health/health.module';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import * as process from 'process';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard } from '@nestjs/throttler';
