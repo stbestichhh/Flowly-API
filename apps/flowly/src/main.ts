@@ -6,19 +6,15 @@ import { Logger as PinoLogger } from 'nestjs-pino';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import * as express from 'express';
-import { ExpressAdapter } from '@nestjs/platform-express';
 import { HttpsService, ShutdownObserver } from '@app/common/https';
 import * as https from 'https';
 
 async function bootstrap() {
   const server = express();
-  const app = await NestFactory.create(
-    FlowlyModule,
-    {
-      bufferLogs: true,
-      cors: true,
-    },
-  );
+  const app = await NestFactory.create(FlowlyModule, {
+    bufferLogs: true,
+    cors: true,
+  });
   await app.init();
 
   const httpsService: HttpsService = app.get(HttpsService);
