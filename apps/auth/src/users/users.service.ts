@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { BanUserDto, CreateUserDto, UpdateUserDto } from './dto';
 import { UserRepository } from './user.repository';
-import { WhereOptions } from 'sequelize';
+import { Sequelize, WhereOptions } from 'sequelize';
 import { User } from '@app/common/database';
 import * as bcrypt from 'bcrypt';
 import { AddRoleDto } from './dto/add-role.dto';
@@ -15,6 +15,7 @@ export class UsersService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly roleReposity: RoleRepository,
+    private readonly sequelize: Sequelize,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
@@ -40,18 +41,34 @@ export class UsersService {
   }
 
   public async create(dto: CreateUserDto) {
-    const user = await this.userRepository.create({
-      ...dto,
-      password: await this.hashPassword(dto.password),
-    });
-    const role = await this.roleReposity.findOne({ value: RolesEnum.USER });
+    const transaction = await this.sequelize.transaction();
 
-    await user.$set('roles', [role.id]);
-    user.roles = [role];
+    try {
+      const user = await this.userRepository.create(
+        {
+          ...dto,
+          password: await this.hashPassword(dto.password),
+        },
+        transaction,
+      );
 
-    await this.cacheManager.reset();
+      const role = await this.roleReposity.findOne(
+        { value: RolesEnum.USER },
+        transaction,
+      );
 
-    return user;
+      await user.$set('roles', [role.id], { transaction });
+      user.roles = [role];
+
+      await this.cacheManager.reset();
+
+      await transaction.commit();
+
+      return user;
+    } catch (e) {
+      await transaction.rollback();
+      console.error(e);
+    }
   }
 
   public async update(id: string, dto: UpdateUserDto) {

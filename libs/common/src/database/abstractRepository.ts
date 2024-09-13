@@ -8,14 +8,17 @@ import {
 } from '@nestjs/common';
 import { AbstractDto } from '@app/common/dto';
 import { CreationAttributes } from 'sequelize/types/model';
-import { ValidationError, WhereOptions } from 'sequelize';
+import { Transaction, ValidationError, WhereOptions } from 'sequelize';
 
 export abstract class AbstractRepository<TModel extends Model> {
   private readonly logger = new Logger(AbstractRepository.name);
 
   protected constructor(protected readonly model: ModelCtor<TModel>) {}
 
-  async create(dto: CreationAttributes<TModel>) {
+  async create(
+    dto: CreationAttributes<TModel>,
+    transaction: Transaction | null = null,
+  ) {
     return (await this.model
       .create(
         {
@@ -24,6 +27,7 @@ export abstract class AbstractRepository<TModel extends Model> {
         },
         {
           include: { all: true },
+          transaction,
         },
       )
       .catch((e) => {
@@ -47,10 +51,14 @@ export abstract class AbstractRepository<TModel extends Model> {
     return entity as TModel;
   }
 
-  async findOne(options: WhereOptions<TModel>) {
+  async findOne(
+    options: WhereOptions<TModel>,
+    transaction: Transaction | null = null,
+  ) {
     const entity = await this.model.findOne({
       where: options,
       include: { all: true },
+      transaction,
     });
 
     if (!entity) {
